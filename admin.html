@@ -89,26 +89,28 @@
 </div>
 
 <script type="module">
-  // --- 1) PASTE YOUR FIREBASE CONFIG ---
-const firebaseConfig = {
-  apiKey: "AIzaSyABCZr2auIlT3ipJBGLJpHJi_CsQNQ0RQc",
-  authDomain: "referral-race.firebaseapp.com",
-  projectId: "referral-race",
-  storageBucket: "referral-race.firebasestorage.app",
-  messagingSenderId: "866066081377",
-  appId: "1:866066081377:web:c5945830784f19e9af2c20"
-};
+  // --- 1) YOUR FIREBASE CONFIG ---
+  const firebaseConfig = {
+    apiKey: "AIzaSyABCZr2auIlT3ipJBGLJpHJi_CsQNQ0RQc",
+    authDomain: "referral-race.firebaseapp.com",
+    projectId: "referral-race",
+    storageBucket: "referral-race.firebasestorage.app",
+    messagingSenderId: "866066081377",
+    appId: "1:866066081377:web:c5945830784f19e9af2c20"
+  };
 
+  // --- 2) SDK imports ---
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
   import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-  import { getFirestore, collection, doc, setDoc, getDocs, deleteDoc, query, orderBy, limit, where, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+  import { getFirestore, collection, doc, setDoc, getDocs, deleteDoc, query, orderBy, limit, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
   import "https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js";
 
-const app = initializeApp(firebaseConfig);
+  // --- 3) Init ---
+  const app  = initializeApp(firebaseConfig);
   const auth = getAuth(app);
   const db   = getFirestore(app);
 
-  // UI refs
+  // --- 4) UI refs ---
   const emailEl = document.getElementById("email");
   const passEl  = document.getElementById("password");
   const loginBtn= document.getElementById("loginBtn");
@@ -137,12 +139,17 @@ const app = initializeApp(firebaseConfig);
 
   let currentUser = null; let tenantId = null; let boardId = "current"; let cache = [];
 
+  // --- 5) Auth handlers ---
   loginBtn.onclick = async () => {
     const email = emailEl.value.trim();
     const pass  = passEl.value.trim();
     if(!email || !pass) return alert("Enter email & password");
-    try{ await signInWithEmailAndPassword(auth, email, pass); }
-    catch(e){ alert("Login failed: "+e.message); }
+    try{
+      await signInWithEmailAndPassword(auth, email, pass);
+    }catch(e){
+      console.error("Login error:", e);
+      alert("Login failed: "+(e.message||e.code||e));
+    }
   };
   logoutBtn.onclick = () => signOut(auth);
 
@@ -160,12 +167,14 @@ const app = initializeApp(firebaseConfig);
     await loadTable();
   });
 
+  // --- 6) Board selection ---
   useBoardBtn.onclick = async () => {
     boardId = (boardIdEl.value.trim() || "current");
     activeBoardPill.textContent = "Active board: "+boardId;
     await loadTable();
   };
 
+  // --- 7) Firestore helpers ---
   const entriesCol = (tenantId, boardId) =>
     collection(db, "tenants", tenantId, "leaderboards", boardId, "entries");
   const entryDoc = (tenantId, boardId, username) =>
@@ -177,7 +186,6 @@ const app = initializeApp(firebaseConfig);
     const qTop = query(entriesCol(tenantId, boardId), orderBy("points","desc"), limit(1000));
     const snap = await getDocs(qTop);
     cache = snap.docs.map(d => ({ id:d.id, ...d.data() }));
-    // weeks dropdown
     const weeks = Array.from(new Set(cache.map(x=>x.week).filter(Boolean))).sort();
     weekFilter.innerHTML = '<option value="">All weeks</option>'+weeks.map(w=>`<option>${w}</option>`).join('');
     renderTable();
@@ -224,6 +232,7 @@ const app = initializeApp(firebaseConfig);
   searchEl.addEventListener("input", renderTable);
   weekFilter.addEventListener("change", renderTable);
 
+  // --- 8) Save / CSV ---
   saveBtn.onclick = async () => {
     if(!tenantId) return alert("Not logged in");
     const username = (usernameEl.value||"").trim();
@@ -233,11 +242,7 @@ const app = initializeApp(firebaseConfig);
     if(!username || !week) return alert("Username and Week are required");
 
     await setDoc(entryDoc(tenantId, boardId, username), {
-      username,
-      points,
-      week,
-      avatar,
-      updatedAt: serverTimestamp()
+      username, points, week, avatar, updatedAt: serverTimestamp()
     }, { merge:true });
 
     usernameEl.value = ""; pointsEl.value=""; weekEl.value=""; avatarEl.value="";
@@ -249,8 +254,7 @@ const app = initializeApp(firebaseConfig);
     if(!tenantId) return alert("Not logged in");
     const file = csvFile.files[0];
     Papa.parse(file, {
-      header: true,
-      skipEmptyLines: true,
+      header: true, skipEmptyLines: true,
       complete: async (results) => {
         const rows = results.data;
         for(const r of rows){

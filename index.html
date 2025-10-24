@@ -227,14 +227,14 @@ function renderHome(){
 <!-- ===== Replace Sheets with Firestore (multi-tenant) ===== -->
 <script type="module">
   // 1) PASTE YOUR FIREBASE CONFIG
-  const FIREBASE_CONFIG = {
-    apiKey: "PASTE_ME",
-    authDomain: "PASTE_ME.firebaseapp.com",
-    projectId: "PASTE_ME",
-    storageBucket: "PASTE_ME.appspot.com",
-    messagingSenderId: "PASTE_ME",
-    appId: "PASTE_ME"
-  };
+const firebaseConfig = {
+  apiKey: "AIzaSyABCZr2auIlT3ipJBGLJpHJi_CsQNQ0RQc",
+  authDomain: "referral-race.firebaseapp.com",
+  projectId: "referral-race",
+  storageBucket: "referral-race.firebasestorage.app",
+  messagingSenderId: "866066081377",
+  appId: "1:866066081377:web:c5945830784f19e9af2c20"
+};
 
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
   import { getFirestore, collection, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";

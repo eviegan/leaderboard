@@ -6,92 +6,265 @@
 <title>Leaderboard Admin (Multi-tenant)</title>
 <link rel="preconnect" href="https://www.gstatic.com" />
 <style>
-:root{--bg:#0f1129;--card:#141735;--ring:#ffffff24;--ink:#eaf2ff;--muted:#a9b7d8;--g1:#ff6ec4;--g2:#7873f5}
-*{box-sizing:border-box} body{margin:0;background:linear-gradient(#0f1129,#0a0b1f);color:var(--ink);font-family:Inter,system-ui,Segoe UI,Roboto,Arial}
-.wrap{max-width:1100px;margin:0 auto;padding:24px}
-h1{margin:0 0 10px}
-.card{background:var(--card);border:1px solid var(--ring);border-radius:16px;padding:16px;box-shadow:0 0 30px #00000044;margin:14px 0}
-input,select,button{padding:12px 14px;border-radius:12px;border:1px solid var(--ring);background:#0e1130;color:var(--ink)}
-button{cursor:pointer;background:linear-gradient(45deg,var(--g1),var(--g2));border:0}
-.row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
-.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-table{width:100%;border-collapse:separate;border-spacing:0}
-th,td{padding:12px;border-bottom:1px solid #ffffff15}
-th{text-align:left;color:#cfd0ff}
-.pill{padding:6px 10px;border-radius:999px;background:#ffffff10;border:1px solid #ffffff22}
-.right{display:flex;gap:8px;justify-content:flex-end}
-.hint{opacity:.8;font-size:12px}
+  :root{--bg:#0f1129;--card:#141735;--ring:#ffffff24;--ink:#eaf2ff;--muted:#a9b7d8;--g1:#ff6ec4;--g2:#7873f5}
+  *{box-sizing:border-box} body{margin:0;background:linear-gradient(#0f1129,#0a0b1f);color:var(--ink);font-family:Inter,system-ui,Segoe UI,Roboto,Arial}
+  .wrap{max-width:1100px;margin:0 auto;padding:24px}
+  h1{margin:0 0 10px}
+  .card{background:var(--card);border:1px solid var(--ring);border-radius:16px;padding:16px;box-shadow:0 0 30px #00000044;margin:14px 0}
+  input,select,button{padding:12px 14px;border-radius:12px;border:1px solid var(--ring);background:#0e1130;color:var(--ink)}
+  button{cursor:pointer;background:linear-gradient(45deg,var(--g1),var(--g2));border:0}
+  .row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  table{width:100%;border-collapse:separate;border-spacing:0}
+  th,td{padding:12px;border-bottom:1px solid #ffffff15}
+  th{text-align:left;color:#cfd0ff}
+  .pill{padding:6px 10px;border-radius:999px;background:#ffffff10;border:1px solid #ffffff22}
+  .right{display:flex;gap:8px;justify-content:flex-end}
+  .hint{opacity:.8;font-size:12px}
 </style>
 </head>
 <body>
 <div class="wrap">
-<h1>Leaderboard Admin</h1>
+  <h1>Leaderboard Admin</h1>
 
+  <!-- Auth -->
+  <div class="card" id="authCard">
+    <div class="row2">
+      <input id="email" type="email" placeholder="Admin email" />
+      <input id="password" type="password" placeholder="Password" />
+    </div>
+    <div class="right" style="margin-top:12px">
+      <button id="loginBtn">Log In</button>
+      <button id="logoutBtn" style="display:none;background:#ffffff14">Log Out</button>
+    </div>
+    <p id="who" class="pill" style="margin-top:10px;display:none"></p>
+    <p class="hint">Each login is its own tenant. Your <b>tenantId</b> is your <code>uid</code>.</p>
+  </div>
 
-<!-- Auth -->
-<div class="card" id="authCard">
-<div class="row2">
-<input id="email" type="email" placeholder="Admin email" />
-<input id="password" type="password" placeholder="Password" />
-</div>
-<div class="right" style="margin-top:12px">
-<button id="loginBtn">Log In</button>
-<button id="logoutBtn" style="display:none;background:#ffffff14">Log Out</button>
-</div>
-<p id="who" class="pill" style="margin-top:10px;display:none"></p>
-<p class="hint">Each login is its own tenant. Your <b>tenantId</b> is your <code>uid</code>.</p>
-</div>
+  <!-- Choose board -->
+  <div class="card" id="boardCard" style="display:none">
+    <div class="row2">
+      <input id="boardId" placeholder="Board ID (e.g. referral-oct)" />
+      <button id="useBoardBtn">Use Board</button>
+    </div>
+    <p class="pill" id="activeBoardPill" style="margin-top:10px"></p>
+  </div>
 
+  <!-- Upsert entry -->
+  <div class="card" id="editorCard" style="display:none">
+    <h3>Add / Update Entry</h3>
+    <div class="row">
+      <input id="username" placeholder="Username" />
+      <input id="points" type="number" placeholder="Points / Turnover" />
+      <input id="week" placeholder="Week (e.g. Week 1)" />
+      <input id="avatar" placeholder="Avatar URL (optional)" />
+    </div>
+    <div class="right" style="margin-top:12px">
+      <button id="saveBtn">Save</button>
+    </div>
+    <p class="hint">Entries are <b>upserted by username</b> within the selected board + week.</p>
+  </div>
 
-<!-- Choose board -->
-<div class="card" id="boardCard" style="display:none">
-<div class="row2">
-<input id="boardId" placeholder="Board ID (e.g. referral-oct)" />
-<button id="useBoardBtn">Use Board</button>
-</div>
-<p class="pill" id="activeBoardPill" style="margin-top:10px"></p>
-</div>
+  <!-- CSV upload -->
+  <div class="card" id="csvCard" style="display:none">
+    <h3>Bulk Upload (CSV)</h3>
+    <div class="row2">
+      <input id="csvFile" type="file" accept=".csv" />
+      <button id="uploadCsvBtn">Upload CSV</button>
+    </div>
+    <p class="pill" style="margin-top:10px">Headers: <code>username,points,week,avatar</code></p>
+  </div>
 
-
-<!-- Upsert entry -->
-<div class="card" id="editorCard" style="display:none">
-<h3>Add / Update Entry</h3>
-<div class="row">
-<input id="username" placeholder="Username" />
-<input id="points" type="number" placeholder="Points / Turnover" />
-<input id="week" placeholder="Week (e.g. Week 1)" />
-<input id="avatar" placeholder="Avatar URL (optional)" />
-</div>
-<div class="right" style="margin-top:12px">
-<button id="saveBtn">Save</button>
-</div>
-<p class="hint">Entries are <b>upserted by username</b> within the selected board + week.</p>
-</div>
-
-
-<!-- CSV upload -->
-<div class="card" id="csvCard" style="display:none">
-<h3>Bulk Upload (CSV)</h3>
-<div class="row2">
-<input id="csvFile" type="file" accept=".csv" />
-<button id="uploadCsvBtn">Upload CSV</button>
-</div>
-<p class="pill" style="margin-top:10px">Headers: <code>username,points,week,avatar</code></p>
-</div>
-
-
-<!-- Table -->
-<div class="card" id="tableCard" style="display:none">
-<div class="row2">
-<input id="search" placeholder="Search username…" />
-<select id="weekFilter"><option value="">All weeks</option></select>
-</div>
-<table style="margin-top:12px">
-<thead><tr><th>#</th><th>Username</th><th>Week</th><th>Points</th><th>Avatar</th><th style="width:200px">Actions</th></tr></thead>
-<tbody id="rows"></tbody>
-</table>
-</div>
+  <!-- Table -->
+  <div class="card" id="tableCard" style="display:none">
+    <div class="row2">
+      <input id="search" placeholder="Search username…" />
+      <select id="weekFilter"><option value="">All weeks</option></select>
+    </div>
+    <table style="margin-top:12px">
+      <thead><tr><th>#</th><th>Username</th><th>Week</th><th>Points</th><th>Avatar</th><th style="width:200px">Actions</th></tr></thead>
+      <tbody id="rows"></tbody>
+    </table>
+  </div>
 </div>
 
+<script type="module">
+  // --- 1) PASTE YOUR FIREBASE CONFIG ---
+const firebaseConfig = {
+  apiKey: "AIzaSyABCZr2auIlT3ipJBGLJpHJi_CsQNQ0RQc",
+  authDomain: "referral-race.firebaseapp.com",
+  projectId: "referral-race",
+  storageBucket: "referral-race.firebasestorage.app",
+  messagingSenderId: "866066081377",
+  appId: "1:866066081377:web:c5945830784f19e9af2c20"
+};
 
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+  import { getFirestore, collection, doc, setDoc, getDocs, deleteDoc, query, orderBy, limit, where, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+  import "https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js";
+
+  const app = initializeApp(FIREBASE_CONFIG);
+  const auth = getAuth(app);
+  const db   = getFirestore(app);
+
+  // UI refs
+  const emailEl = document.getElementById("email");
+  const passEl  = document.getElementById("password");
+  const loginBtn= document.getElementById("loginBtn");
+  const logoutBtn=document.getElementById("logoutBtn");
+  const whoEl   = document.getElementById("who");
+  const boardCard = document.getElementById("boardCard");
+  const boardIdEl = document.getElementById("boardId");
+  const useBoardBtn= document.getElementById("useBoardBtn");
+  const activeBoardPill = document.getElementById("activeBoardPill");
+
+  const editorCard = document.getElementById("editorCard");
+  const usernameEl = document.getElementById("username");
+  const pointsEl   = document.getElementById("points");
+  const weekEl     = document.getElementById("week");
+  const avatarEl   = document.getElementById("avatar");
+  const saveBtn    = document.getElementById("saveBtn");
+
+  const csvCard = document.getElementById("csvCard");
+  const csvFile = document.getElementById("csvFile");
+  const uploadCsvBtn = document.getElementById("uploadCsvBtn");
+
+  const tableCard = document.getElementById("tableCard");
+  const rowsEl  = document.getElementById("rows");
+  const searchEl= document.getElementById("search");
+  const weekFilter = document.getElementById("weekFilter");
+
+  let currentUser = null; let tenantId = null; let boardId = "current"; let cache = [];
+
+  loginBtn.onclick = async () => {
+    const email = emailEl.value.trim();
+    const pass  = passEl.value.trim();
+    if(!email || !pass) return alert("Enter email & password");
+    try{ await signInWithEmailAndPassword(auth, email, pass); }
+    catch(e){ alert("Login failed: "+e.message); }
+  };
+  logoutBtn.onclick = () => signOut(auth);
+
+  onAuthStateChanged(auth, async (user) => {
+    currentUser = user || null;
+    if(!user){
+      whoEl.style.display = "none"; logoutBtn.style.display = "none";
+      boardCard.style.display = editorCard.style.display = csvCard.style.display = tableCard.style.display = "none";
+      return;
+    }
+    tenantId = user.uid; // multi-tenant key
+    whoEl.textContent = `Logged in as ${user.email} (uid: ${user.uid})`;
+    whoEl.style.display = "inline-block"; logoutBtn.style.display = "inline-block";
+    boardCard.style.display = editorCard.style.display = csvCard.style.display = tableCard.style.display = "block";
+    await loadTable();
+  });
+
+  useBoardBtn.onclick = async () => {
+    boardId = (boardIdEl.value.trim() || "current");
+    activeBoardPill.textContent = "Active board: "+boardId;
+    await loadTable();
+  };
+
+  const entriesCol = (tenantId, boardId) =>
+    collection(db, "tenants", tenantId, "leaderboards", boardId, "entries");
+  const entryDoc = (tenantId, boardId, username) =>
+    doc(db, "tenants", tenantId, "leaderboards", boardId, "entries", username);
+
+  async function loadTable(){
+    if(!tenantId) return;
+    activeBoardPill.textContent = "Active board: "+boardId;
+    const qTop = query(entriesCol(tenantId, boardId), orderBy("points","desc"), limit(1000));
+    const snap = await getDocs(qTop);
+    cache = snap.docs.map(d => ({ id:d.id, ...d.data() }));
+    // weeks dropdown
+    const weeks = Array.from(new Set(cache.map(x=>x.week).filter(Boolean))).sort();
+    weekFilter.innerHTML = '<option value="">All weeks</option>'+weeks.map(w=>`<option>${w}</option>`).join('');
+    renderTable();
+  }
+
+  function renderTable(){
+    const term = (searchEl.value||"").toLowerCase();
+    const wf   = weekFilter.value;
+    let list = cache.slice();
+    if(wf) list = list.filter(x=>x.week===wf);
+    if(term) list = list.filter(x=> (x.username||"").toLowerCase().includes(term));
+    rowsEl.innerHTML = list.map((x,i)=>`
+      <tr>
+        <td>${i+1}</td>
+        <td>${x.username||""}</td>
+        <td>${x.week||""}</td>
+        <td>${x.points??0}</td>
+        <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis">${x.avatar?`<a href="${x.avatar}" target="_blank">link</a>`:""}</td>
+        <td>
+          <button data-edit="${x.username}">Edit</button>
+          <button data-del="${x.username}" style="background:#ff6b6b;border:0">Delete</button>
+        </td>
+      </tr>
+    `).join("");
+    rowsEl.querySelectorAll("button[data-edit]").forEach(b=> b.onclick = () => {
+      const u = b.getAttribute("data-edit");
+      const item = cache.find(z => z.username === u);
+      if(item){
+        usernameEl.value = item.username||"";
+        pointsEl.value   = item.points||0;
+        weekEl.value     = item.week||"";
+        avatarEl.value   = item.avatar||"";
+        window.scrollTo({top:0,behavior:"smooth"});
+      }
+    });
+    rowsEl.querySelectorAll("button[data-del]").forEach(b=> b.onclick = async () => {
+      const u = b.getAttribute("data-del");
+      if(confirm("Delete "+u+"?")){
+        await deleteDoc(entryDoc(tenantId, boardId, u));
+        await loadTable();
+      }
+    });
+  }
+  searchEl.addEventListener("input", renderTable);
+  weekFilter.addEventListener("change", renderTable);
+
+  saveBtn.onclick = async () => {
+    if(!tenantId) return alert("Not logged in");
+    const username = (usernameEl.value||"").trim();
+    const points   = Number(pointsEl.value||0);
+    const week     = (weekEl.value||"").trim();
+    const avatar   = (avatarEl.value||"").trim()||null;
+    if(!username || !week) return alert("Username and Week are required");
+
+    await setDoc(entryDoc(tenantId, boardId, username), {
+      username,
+      points,
+      week,
+      avatar,
+      updatedAt: serverTimestamp()
+    }, { merge:true });
+
+    usernameEl.value = ""; pointsEl.value=""; weekEl.value=""; avatarEl.value="";
+    await loadTable();
+  };
+
+  uploadCsvBtn.onclick = async () => {
+    if(!csvFile.files.length) return alert("Choose a CSV file");
+    if(!tenantId) return alert("Not logged in");
+    const file = csvFile.files[0];
+    Papa.parse(file, {
+      header: true,
+      skipEmptyLines: true,
+      complete: async (results) => {
+        const rows = results.data;
+        for(const r of rows){
+          const username = (r.username||"").trim(); if(!username) continue;
+          const points = Number(r.points||0);
+          const week   = (r.week||"").trim(); if(!week) continue;
+          const avatar = (r.avatar||"").trim()||null;
+          await setDoc(entryDoc(tenantId, boardId, username), { username, points, week, avatar, updatedAt: serverTimestamp() }, { merge:true });
+        }
+        alert("CSV uploaded: "+rows.length+" rows");
+        await loadTable();
+      }
+    });
+  };
+</script>
+</body>
 </html>

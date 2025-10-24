@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Leaderboard</title>
+<link rel="preconnect" href="https://www.gstatic.com" />
+<style>
+  :root{
+    --bg:#0f1129; --card:#12152b; --ink:#eaf2ff; --muted:#a9b7d8;
+    --g1:#ff6ec4; --g2:#7873f5; --ring:#ffffff24;
+  }
+  *{box-sizing:border-box} body{margin:0;background:radial-gradient(1200px 700px at 20% -10%, #1b1d3d 0, transparent 60%),linear-gradient(#0f1129,#0a0b1f);color:var(--ink);font-family:Inter,system-ui,Segoe UI,Roboto,Arial}
+  .wrap{max-width:980px;margin:0 auto;padding:24px}
+  .hero{display:flex;align-items:center;gap:16px;margin:8px 0 20px}
+  .badge{width:44px;height:44px;border-radius:12px;background:linear-gradient(45deg,var(--g1),var(--g2));box-shadow:0 0 24px #7873f577}
+  h1{margin:0;font-size:28px}
+  .controls{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin:16px 0 20px}
+  .controls input,.controls select{padding:12px 14px;border-radius:12px;border:1px solid var(--ring);background:#0e1130;color:var(--ink)}
+  .card{background:var(--card);border:1px solid var(--ring);border-radius:16px;box-shadow:0 0 30px #00000033}
+  table{width:100%;border-collapse:separate;border-spacing:0}
+  th,td{padding:14px;border-bottom:1px solid #ffffff12}
+  th{font-weight:600;text-align:left;color:#cfd0ff}
+  tr:hover td{background:#ffffff06}
+  .pill{padding:6px 10px;border-radius:999px;background:#ffffff0f;border:1px solid #ffffff22;color:#e8e9ff;font-size:12px}
+  .footer{opacity:.8;margin-top:16px;font-size:12px}
+  .bar{height:8px;border-radius:999px;background:#ffffff10;overflow:hidden}
+  .fill{height:100%;background:linear-gradient(90deg,var(--g1),var(--g2))}
+  .head{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;border-bottom:1px solid #ffffff1a}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="hero">
+      <div class="badge"></div>
+      <div>
+        <h1 id="title">Leaderboard</h1>
+        <div class="footer">Board: <span id="boardName">current</span></div>
+      </div>
+    </div>
+
+    <div class="controls">
+      <input id="search" placeholder="Search username…" />
+      <select id="groupFilter">
+        <option value="">All groups</option>
+      </select>
+      <input id="limit" type="number" min="1" max="200" value="20" />
+    </div>
+
+    <div class="card">
+      <div class="head"><strong>Top Players</strong><span class="pill" id="countPill">0 players</span></div>
+      <table>
+        <thead><tr><th style="width:64px">#</th><th>Username</th><th>Group</th><th style="width:160px">Score</th><th style="width:200px">Progress</th></tr></thead>
+        <tbody id="rows"></tbody>
+      </table>
+    </div>
+
+    <p class="footer">Tip: add <code>?board=your-board-id</code> to the URL to switch boards.</p>
+  </div>
+
+  <script type="module">
+    // --- CONFIG: paste your Firebase config below ---
+    const FIREBASE_CONFIG = {
+      apiKey: "PASTE_ME",
+      authDomain: "PASTE_ME.firebaseapp.com",
+      projectId: "PASTE_ME",
+      storageBucket: "PASTE_ME.appspot.com",
+      messagingSenderId: "PASTE_ME",
+      appId: "PASTE_ME"
+    };
+
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getFirestore, collection, doc, getDocs, query, orderBy, limit, where } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+    const app = initializeApp(FIREBASE_CONFIG);
+    const db  = getFirestore(app);
+
+    // Board selection via URL (?board=weekend-2025-10-24)
+    const params   = new URLSearchParams(location.search);
+    const boardId  = params.get("board") || "current";
+    document.getElementById("boardName").textContent = boardId;
+
+    const rowsEl   = document.getElementById("rows");
+    const searchEl = document.getElementById("search");
+    const groupEl  = document.getElementById("groupFilter");
+    const limitEl  = document.getElementById("limit");
+    const countEl  = document.getElementById("countPill");
+
+    let cache = []; // local cache for client-side filtering
+
+    async function load() {
+      const entriesCol = collection(db, "leaderboards", boardId, "entries");
+      const qTop = query(entriesCol, orderBy("score", "desc"), limit(Number(limitEl.value)));
+      const snap = await getDocs(qTop);
+      cache = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+
+      // populate group filter
+      const groups = Array.from(new Set(cache.map(x => x.group).filter(Boolean))).sort();
+      groupEl.innerHTML = '<option value="">All groups</option>' + groups.map(g => `<option>${g}</option>`).join("");
+
+      render();
+    }
+
+    function render() {
+      const term = searchEl.value.trim().toLowerCase();
+      const grp  = groupEl.value;
+
+      let list = cache.slice();
+      if (grp) list = list.filter(x => x.group === grp);
+      if (term) list = list.filter(x => (x.username_lc || x.username?.toLowerCase()).includes(term));
+
+      countEl.textContent = `${list.length} players`;
+
+      rowsEl.innerHTML = list.map((x, i) => {
+        const pct = Math.max(0, Math.min(100, Math.round((x.score || 0) / (cache[0]?.score || 1) * 100)));
+        return `<tr>
+          <td>${i+1}</td>
+          <td>${x.username}</td>
+          <td>${x.group || "-"}</td>
+          <td><strong>${(x.score ?? 0).toLocaleString()}</strong></td>
+          <td><div class="bar"><div class="fill" style="width:${pct}%"></div></div></td>
+        </tr>`;
+      }).join("");
+    }
+
+    searchEl.addEventListener("input", render);
+    groupEl.addEventListener("change", render);
+    limitEl.addEventListener("change", load);
+
+    load().catch(console.error);
+  </script>
+</body>
+</html>

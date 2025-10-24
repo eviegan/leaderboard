@@ -104,7 +104,7 @@ const firebaseConfig = {
   import { getFirestore, collection, doc, setDoc, getDocs, deleteDoc, query, orderBy, limit, where, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
   import "https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js";
 
-  const app = initializeApp(FIREBASE_CONFIG);
+const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
   const db   = getFirestore(app);
 

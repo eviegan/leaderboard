@@ -5,125 +5,66 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
 <title>Referral Race + Mini Games</title>
 <style>
-  :root{
-    --bg:#0c0c12; --ink:#eef2ff; --muted:#a0a7c9; --edge:rgba(255,255,255,.08);
-    --p1:#8b5dff; --p2:#aa74ff; --glow:rgba(153,120,255,.3); --acc:#ffd86a;
-  }
+  :root{--bg:#0c0c12;--ink:#eef2ff;--muted:#a0a7c9;--edge:rgba(255,255,255,.08);--p1:#8b5dff;--p2:#aa74ff;--glow:rgba(153,120,255,.3);--acc:#ffd86a}
   *{box-sizing:border-box}
-  html,body{margin:0;height:100%;overflow-x:hidden;
-    background:radial-gradient(1000px 700px at 50% -10%, #1b1c3f 0%, transparent 60%),
-               linear-gradient(180deg,#0b0c1a,#070813);
-    color:var(--ink);font:15px/1.5 Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
-    -webkit-tap-highlight-color:transparent}
+  html,body{margin:0;height:100%;overflow-x:hidden;background:radial-gradient(1000px 700px at 50% -10%, #1b1c3f 0%, transparent 60%),linear-gradient(180deg,#0b0c1a,#070813);color:var(--ink);font:15px/1.5 Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;-webkit-tap-highlight-color:transparent}
   .app{max-width:520px;margin:0 auto;min-height:100dvh;display:grid;grid-template-rows:auto 1fr;overflow-x:hidden}
-
   header{position:sticky;top:0;background:linear-gradient(180deg,#10112a,#0d0e23);border-bottom:1px solid var(--edge);padding:12px 16px;z-index:20}
   .hrow{display:flex;align-items:center;justify-content:space-between}
   .title{font-weight:900;font-size:18px;letter-spacing:.4px}
-
   main{padding:14px 14px 116px}
   .card{background:linear-gradient(180deg,#151533,#10112a);border:1px solid var(--edge);border-radius:16px;padding:14px;margin-bottom:12px}
   h2{margin:0 0 8px;font-size:18px}
   h3{margin:0 0 8px;font-size:16px}
   p{margin:0 0 8px;color:#dfe5ff}
 
-  .rr{--ink:#2b2350; --gold:#ffcf5a; --silver:#dbe6ff; --bronze:#ffd9b3; width:100%}
+  /* Ranking */
+  .rr{--ink:#2b2350;--gold:#ffcf5a;--silver:#dbe6ff;--bronze:#ffd9b3;width:100%}
   .rr .controls{display:flex;align-items:center;gap:8px}
   .rr .select,.rr .wbtn{appearance:none;border:0;border-radius:10px;padding:9px 10px;font-weight:800}
   .rr .select{background:#ffffffbf;color:#2d1b55}
   .rr .wbtn{background:#ffd86a;color:#3a2400;box-shadow:0 4px 0 rgba(0,0,0,.12);cursor:pointer}
   .rr .wbtn:active{transform:translateY(1px);box-shadow:0 2px 0 rgba(0,0,0,.12)}
-
-  .rr .podiumCard{margin-top:12px;border-radius:22px;padding:16px 12px 12px;width:100%;
-    background:linear-gradient(180deg,#f0e6ff,#f9f1ff);border:1px solid rgba(255,255,255,.55);
-    color:var(--ink);box-shadow:0 24px 60px rgba(36,18,66,.35);overflow:hidden}
-  .rr .cap{display:flex;justify-content:center;gap:10px;align-items:center;color:#876dc9;
-    font-weight:900;font-size:12px;letter-spacing:.4px;margin-bottom:10px}
+  .rr .podiumCard{margin-top:12px;border-radius:22px;padding:16px 12px 12px;background:linear-gradient(180deg,#f0e6ff,#f9f1ff);border:1px solid rgba(255,255,255,.55);color:var(--ink);box-shadow:0 24px 60px rgba(36,18,66,.35);overflow:hidden}
+  .rr .cap{display:flex;justify-content:center;gap:10px;align-items:center;color:#876dc9;font-weight:900;font-size:12px;letter-spacing:.4px;margin-bottom:10px}
   .rr .podium{display:grid;grid-template-columns:1fr 1.2fr 1fr;gap:10px;align-items:end}
-  .rr .step{position:relative;border-radius:16px 16px 10px 10px;background:linear-gradient(180deg,#ffffff,#f0ecff);
-    padding:10px 8px 12px;border:1px solid rgba(44,26,74,.12);
-    box-shadow: inset 0 -12px 18px rgba(100,70,180,.10), 0 8px 18px rgba(0,0,0,.10);
-    display:grid;place-items:center;min-height:86px}
+  .rr .step{position:relative;border-radius:16px 16px 10px 10px;background:linear-gradient(180deg,#ffffff,#f0ecff);padding:10px 8px 12px;border:1px solid rgba(44,26,74,.12);box-shadow: inset 0 -12px 18px rgba(100,70,180,.10), 0 8px 18px rgba(0,0,0,.10);display:grid;place-items:center;min-height:86px}
   .rr .s1{min-height:120px}.rr .s2{min-height:100px}.rr .s3{min-height:96px}
-  .rr .badge{position:absolute;top:-20px;left:50%;transform:translateX(-50%);width:58px;height:58px;border-radius:50%;
-    display:grid;place-items:center;font-weight:900;border:2px solid rgba(0,0,0,.06);box-shadow:0 6px 14px rgba(0,0,0,.18)}
+  .rr .badge{position:absolute;top:-20px;left:50%;transform:translateX(-50%);width:58px;height:58px;border-radius:50%;display:grid;place-items:center;font-weight:900;border:2px solid rgba(0,0,0,.06);box-shadow:0 6px 14px rgba(0,0,0,.18)}
   .rr .b1{background:radial-gradient(circle at 35% 30%, #fff, var(--gold) 65%);color:#5a4300}
   .rr .b2{background:radial-gradient(circle at 35% 30%, #fff, var(--silver) 65%);color:#1d2945}
   .rr .b3{background:radial-gradient(circle at 35% 30%, #fff, var(--bronze) 65%);color:#4a2c12}
-
-  .rr .av{position:absolute;top:-64px;left:50%;transform:translateX(-50%);width:76px;height:76px;border-radius:50%;
-    border:4px solid #fff;box-shadow:0 10px 22px rgba(0,0,0,.25);background:#fff center/cover no-repeat}
+  .rr .av{position:absolute;top:-64px;left:50%;transform:translateX(-50%);width:76px;height:76px;border-radius:50%;border:4px solid #fff;box-shadow:0 10px 22px rgba(0,0,0,.25);background:#fff center/cover no-repeat}
   .rr .name{margin-top:14px;font-weight:900;color:#32245c;max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .rr .scoreMini{color:#6b5d9c;font-size:12px;margin-top:2px}
-
   .rr .list{margin-top:12px;display:grid;gap:8px}
-  .rr .row{display:grid;grid-template-columns:46px 1fr auto;gap:8px;align-items:center;
-    background:linear-gradient(180deg,rgba(255,255,255,.9),rgba(255,255,255,.75));
-    border:1px solid rgba(0,0,0,.06);border-radius:14px;padding:10px;color:#2b2350}
+  .rr .row{display:grid;grid-template-columns:46px 1fr auto;gap:8px;align-items:center;background:linear-gradient(180deg,rgba(255,255,255,.9),rgba(255,255,255,.75));border:1px solid rgba(0,0,0,.06);border-radius:14px;padding:10px;color:#2b2350}
   .rr .rk{display:grid;place-items:center;width:38px;height:38px;border-radius:12px;font-weight:900;background:#f0ecff;border:1px solid rgba(0,0,0,.06)}
   .rr .face{width:38px;height:38px;border-radius:50%;background:#eee center/cover no-repeat;border:2px solid #fff;margin-right:8px}
   .rr .uname{font-weight:800}
   .rr .val{font-weight:900;color:#5b4bb4}
   .rr .row .left{display:flex;align-items:center;gap:8px}
-
   .rr .search{margin-top:12px;display:grid;grid-template-columns:1fr auto;gap:8px}
   .rr .input{border-radius:12px;border:1px solid var(--edge);background:#0f1030;color:#eff3ff;padding:10px 12px}
   .rr .go{appearance:none;border:0;border-radius:12px;padding:10px 12px;background:#ffd86a;color:#3a2400;font-weight:900;cursor:pointer;box-shadow:0 4px 0 rgba(0,0,0,.12)}
   .rr .go:active{transform:translateY(1px);box-shadow:0 2px 0 rgba(0,0,0,.12)}
-  .rr .result{margin-top:8px;background:rgba(255,255,255,.92);border:1px solid rgba(0,0,0,.08);color:#2b2350;border-radius:12px;padding:10px 12px;font-weight:700;display:none}
 
-  .iconnav{
-    position: fixed; left: 50%; transform: translateX(-50%);
-    bottom: max(8px, env(safe-area-inset-bottom));
-    width: min(520px, 100% - 12px);
-    display: grid; grid-template-columns: repeat(5,1fr); gap: 8px;
-    padding: 10px 12px; background: rgba(16,17,42,.98); backdrop-filter: blur(6px);
-    border: 1px solid rgba(255,255,255,.08); border-radius: 16px;
-    box-shadow: 0 18px 38px rgba(0,0,0,.28), 0 2px 0 rgba(255,255,255,.04) inset; z-index: 1000;
-    --hot:#ff4fd8; --hot2:#ff9ae8; --ix: 0;
-  }
-  .iconnav .itab{position:relative;isolation:isolate;appearance:none;border:0;background:transparent;cursor:pointer;
-    display:flex;flex-direction:column;align-items:center;gap:6px;padding:10px 6px;color:#cdd7ff;font-weight:800;border-radius:14px}
-  .iconnav .itab span{font-size:11px;letter-spacing:.2px;line-height:1}
+  /* Bottom nav */
+  .iconnav{position:fixed;left:50%;transform:translateX(-50%);bottom:max(8px, env(safe-area-inset-bottom));width:min(520px, 100% - 12px);display:grid;grid-template-columns:repeat(5,1fr);gap:8px;padding:10px 12px;background:rgba(16,17,42,.98);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.08);border-radius:16px;box-shadow:0 18px 38px rgba(0,0,0,.28), 0 2px 0 rgba(255,255,255,.04) inset;z-index:1000;--hot:#ff4fd8;--hot2:#ff9ae8;--ix:0}
+  .iconnav .itab{position:relative;isolation:isolate;appearance:none;border:0;background:transparent;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:6px;padding:10px 6px;color:#cdd7ff;font-weight:800;border-radius:14px}
   .iconnav .ico{width:26px;height:26px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;transition:transform .25s,color .25s}
   .iconnav .itab.active .ico{transform:translateY(-2px) scale(1.06)}
   .iconnav .itab.active,.iconnav .itab:focus-visible{color:#fff}
-  .iconnav .inkbar{position:absolute;bottom:10px;height:44px;z-index:0;pointer-events:none;left:12px;right:12px;
-    width: calc((100% - 24px - 8px*4)/5);
-    border-radius:16px;background:radial-gradient(90% 140% at 10% 0%,var(--hot) 0%,var(--hot2) 60%,#ffcabf 100%);
-    box-shadow:0 12px 26px rgba(255,79,216,.35), inset 0 -2px 6px rgba(0,0,0,.18);
-    transform:translateX(calc(var(--ix) * (100% + 8px)));
-    transition:transform .28s cubic-bezier(.22,.9,.24,1), width .15s ease}
-
+  .iconnav .inkbar{position:absolute;bottom:10px;height:44px;z-index:0;pointer-events:none;left:12px;right:12px;width:calc((100% - 24px - 8px*4)/5);border-radius:16px;background:radial-gradient(90% 140% at 10% 0%,var(--hot) 0%,var(--hot2) 60%,#ffcabf 100%);box-shadow:0 12px 26px rgba(255,79,216,.35), inset 0 -2px 6px rgba(0,0,0,.18);transform:translateX(calc(var(--ix) * (100% + 8px)));transition:transform .28s cubic-bezier(.22,.9,.24,1)}
   details{background:#14143a;border:1px solid var(--edge);border-radius:12px;padding:10px}
   details+details{margin-top:8px}
   summary{cursor:pointer;font-weight:800}
-
   .socialCard{background: radial-gradient(120% 140% at 0% 0%, #5d2fff 0%, #4c22d8 35%, #3b1dbb 70%);border:1px solid rgba(255,255,255,.18);border-radius:20px;padding:12px;box-shadow:0 20px 50px rgba(0,0,0,.35)}
   .socialItem{display:grid;grid-template-columns:1fr auto;align-items:center;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);border-radius:14px;padding:10px 12px}
-  .socialItem + .socialItem{margin-top:10px}
   .sLeft{display:flex;align-items:center;gap:10px;min-width:0}
   .sIcon{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:#fff;color:#111;box-shadow:0 6px 14px rgba(0,0,0,.18)}
   .sName{font-weight:800;letter-spacing:.2px}
   .subBtn{appearance:none;border:0;padding:9px 14px;border-radius:10px;background:#fff;color:#222;font-weight:900;cursor:pointer;box-shadow:0 4px 0 rgba(0,0,0,.12)}
-  .subBtn:active{transform:translateY(1px);box-shadow:0 2px 0 rgba(0,0,0,.12)}
-
-  .soundBtn{position:fixed;right:12px;bottom:calc(72px + env(safe-area-inset-bottom,0));background:rgba(255,255,255,.95);color:#111;border:1px solid rgba(0,0,0,.08);border-radius:14px;padding:10px 12px;display:none;gap:8px;align-items:center;font-weight:900;z-index:1100;box-shadow:0 10px 24px rgba(0,0,0,.25)}
-  .soundBtn.show{display:inline-flex}
-  .soundBtn.active{background:linear-gradient(90deg,#ffd86a,#ffc24d)}
-  .soundBtn .ic{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-  @media (min-width:560px){.soundBtn{bottom:calc(92px + env(safe-area-inset-bottom,0))}
-  }
-  .mg-tabs{display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap}
-  .mg-tabs button{appearance:none;border:1px solid var(--edge);background:#15153a;color:#eaf0ff;border-radius:12px;padding:10px 12px;font-weight:900;cursor:pointer}
-  .mg-tabs button.active{background:linear-gradient(180deg,var(--p2),var(--p1));box-shadow:0 6px 18px var(--glow)}
-  .mg-wrap{border:1px solid var(--edge);border-radius:16px;overflow:hidden;background:linear-gradient(180deg,#0f1030,#0b0c26)}
-  .mg-head{display:flex;align-items:center;justify-content:space-between;padding:10px;border-bottom:1px solid #0a0e28}
-  .mg-head .title{font-weight:900}
-  .mg-head .ctrls{display:flex;gap:8px}
-  .mg-btn{appearance:none;border:0;border-radius:10px;background:#ffd86a;color:#361e00;font-weight:900;padding:8px 12px;cursor:pointer;box-shadow:0 4px 0 rgba(0,0,0,.12)}
-  .mg-canvas{display:block;width:100%;height:340px;background:linear-gradient(180deg,#0a0e24,#060814)}
-  .tip{font-size:12px;color:#b7c3ff;margin-top:8px}
 </style>
 </head>
 <body>
@@ -134,52 +75,27 @@
       <div class="muted" style="font-size:12px">v1 • demo</div>
     </div>
   </header>
-
   <main id="view"></main>
 </div>
 
 <nav class="iconnav" aria-label="Primary">
   <div class="inkbar" aria-hidden="true"></div>
-  <button type="button" class="itab active" data-tab="home" data-idx="0" aria-label="Home">
-    <svg class="ico" viewBox="0 0 24 24"><path d="M4 10.5l8-6 8 6V20a2 2 0 0 1-2 2h-3.5a1.5 1.5 0 0 1-1.5-1.5V16a2 2 0 0 0-2-2 2 2 0 0 0-2 2v4.5A1.5 1.5 0 0 1 7.5 22H4a2 2 0 0 1-2-2v-9.5z"/></svg>
-    <span>Home</span>
-  </button>
-  <button type="button" class="itab" data-tab="ranks" data-idx="1" aria-label="Ranks">
-    <svg class="ico" viewBox="0 0 24 24"><path d="M7 22V11a2 2 0 0 1 2-2h6v13H7zM3 22v-7a2 2 0 0 1 2-2h1v9H3zM17 22V5a2 2 0 0 1 2-2h2v19h-4zM10 5l2-3 2 3"/></svg>
-    <span>Ranks</span>
-  </button>
-  <button type="button" class="itab" data-tab="terms" data-idx="2" aria-label="T & C">
-    <svg class="ico" viewBox="0 0 24 24"><path d="M6 3h9l4 4v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zM15 3v4h4M8 11h8M8 15h8M8 7h4"/></svg>
-    <span>T&amp;C</span>
-  </button>
-  <button type="button" class="itab" data-tab="community" data-idx="3" aria-label="Community">
-    <svg class="ico" viewBox="0 0 24 24"><path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4zm0 2c-4 0-8 2-8 5v1h16v-1c0-3-4-5-8-5zM18.5 11.5a3 3 0 1 0-2.5-5 5.8 5.8 0 0 1 .7 2.5 5.8 5.8 0 0 1-.6 2.5 3 3 0 0 0 2.4 0z"/></svg>
-    <span>Community</span>
-  </button>
-  <button type="button" class="itab" data-tab="minigame" data-idx="4" aria-label="Mini Game">
-    <svg class="ico" viewBox="0 0 24 24"><path d="M4 8a4 4 0 0 1 4-4h2a2 2 0 0 1 2 2v1h2a2 2 0 0 1 2 2v1h2a2 2 0 0 1 2 2v2h-4l-2 3H8l-2-3H2v-3a3 3 0 0 1 2-3z"/></svg>
-    <span>Mini Game</span>
-  </button>
+  <button type="button" class="itab active" data-tab="home" data-idx="0"><svg class="ico" viewBox="0 0 24 24"><path d="M4 10.5l8-6 8 6V20a2 2 0 0 1-2 2h-3.5a1.5 1.5 0 0 1-1.5-1.5V16a2 2 0 0 0-2-2 2 2 0 0 0-2 2v4.5A1.5 1.5 0 0 1 7.5 22H4a2 2 0 0 1-2-2v-9.5z"/></svg><span>Home</span></button>
+  <button type="button" class="itab" data-tab="ranks" data-idx="1"><svg class="ico" viewBox="0 0 24 24"><path d="M7 22V11a2 2 0 0 1 2-2h6v13H7zM3 22v-7a2 2 0 0 1 2-2h1v9H3zM17 22V5a2 2 0 0 1 2-2h2v19h-4zM10 5l2-3 2 3"/></svg><span>Ranks</span></button>
+  <button type="button" class="itab" data-tab="terms" data-idx="2"><svg class="ico" viewBox="0 0 24 24"><path d="M6 3h9l4 4v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zM15 3v4h4M8 11h8M8 15h8M8 7h4"/></svg><span>T&amp;C</span></button>
+  <button type="button" class="itab" data-tab="community" data-idx="3"><svg class="ico" viewBox="0 0 24 24"><path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4zm0 2c-4 0-8 2-8 5v1h16v-1c0-3-4-5-8-5zM18.5 11.5a3 3 0 1 0-2.5-5 5.8 5.8 0 0 1 .7 2.5 5.8 5.8 0 0 1-.6 2.5 3 3 0 0 0 2.4 0z"/></svg><span>Community</span></button>
+  <button type="button" class="itab" data-tab="minigame" data-idx="4"><svg class="ico" viewBox="0 0 24 24"><path d="M4 8a4 4 0 0 1 4-4h2a2 2 0 0 1 2 2v1h2a2 2 0 0 1 2 2v1h2a2 2 0 0 1 2 2v2h-4l-2 3H8l-2-3H2v-3a3 3 0 0 1 2-3z"/></svg><span>Mini Game</span></button>
 </nav>
 
-<audio id="bgm" src="theme.mp3" preload="auto" loop playsinline autoplay></audio>
-<button id="soundBtn" class="soundBtn" aria-label="Toggle sound" title="Sound">
-  <svg viewBox="0 0 24 24" class="ic"><path d="M4 10h4l5-4v12l-5-4H4zM17 8a5 5 0 010 8"/></svg>
-  <span>Sound</span>
-</button>
-
 <script>
-function $(s,el){return (el||document).querySelector(s)}
-function $all(s,el){return [].slice.call((el||document).querySelectorAll(s))}
-function fmt(n){n=Number(n||0);if(n>=1000)return (Math.round(n/100)/10).toLocaleString()+"K";return n.toLocaleString()}
-function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
-function faceBg(url){return url?'url("'+url+'")':'url("data:image/svg+xml;utf8,'+encodeURIComponent(svgAvatar())+'")'}
-function svgAvatar(){return "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0%' stop-color='%23a0c4ff'/><stop offset='100%' stop-color='%238f6bff'/></linearGradient></defs><rect width='64' height='64' rx='16' fill='url(%23g)'/><circle cx='32' cy='26' r='12' fill='white' opacity='.9'/><rect x='14' y='40' width='36' height='16' rx='8' fill='white' opacity='.9'/></svg>"}
-function getParam(k){var m=location.search.match(new RegExp("[?&]"+k+"=([^&]+)","i"));return m?decodeURIComponent(m[1]):null}
-
+const $=(s,el)=> (el||document).querySelector(s);
+const $all=(s,el)=> Array.from((el||document).querySelectorAll(s));
+const fmt=n=>{n=Number(n||0);return n>=1000? (Math.round(n/100)/10).toLocaleString()+"K": n.toLocaleString();}
+const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+const faceBg=url=> url?`url("${url}")`:`url("data:image/svg+xml;utf8,${encodeURIComponent("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0%' stop-color='%23a0c4ff'/><stop offset='100%' stop-color='%238f6bff'/></linearGradient></defs><rect width='64' height='64' rx='16' fill='url(%23g)'/><circle cx='32' cy='26' r='12' fill='white' opacity='.9'/><rect x='14' y='40' width='36' height='16' rx='8' fill='white' opacity='.9'/></svg>")}')`;
+const getParam=k=> (location.search.match(new RegExp("[?&]"+k+"=([^&]+)","i"))||[])[1] && decodeURIComponent(RegExp.$1);
 let state={tab:'home'}; let ALL=[],WEEKS=[],CUR_WEEK='',TOP100=[];
 function moveInk(ix){ document.querySelector('.iconnav').style.setProperty('--ix', ix); }
-
 function render(){
   $('#hdrTitle').textContent = state.tab==='ranks' ? 'Referral Ranking' :
                                state.tab==='terms' ? 'Terms & FAQ' :
@@ -187,33 +103,20 @@ function render(){
                                state.tab==='minigame' ? 'Mini Game' : 'Referral Race';
   $all('.iconnav .itab').forEach(b=>b.classList.toggle('active',b.dataset.tab===state.tab));
   moveInk(parseInt(document.querySelector('.iconnav .itab.active')?.dataset.idx||'0',10));
-
   if(state.tab==='ranks') renderRanks();
   else if(state.tab==='terms') renderTerms();
   else if(state.tab==='community') renderCommunity();
   else if(state.tab==='minigame') renderMiniGame();
   else renderHome();
 }
-
 function renderHome(){
-  const tenant = getParam('tenant'), board = getParam('board');
-  const help = (!tenant||!board) ? `<div class="card" style="border-color:#ff9">${!tenant||!board?`<b>Tip:</b> Open with <code>?tenant=&lt;UID&gt;&amp;board=&lt;boardId&gt;</code>`:''}</div>` : '';
-  $('#view').innerHTML = `
-    <div class="card">
-      <h2>Referral Race</h2>
-      <p>Invite friends, climb the leaderboard, and win weekly rewards.</p>
-      <ul style="margin:6px 0 0 18px;color:#dfe5ff">
-        <li>Share your referral link with friends.</li>
-        <li>Every verified signup = <b>+1 point</b>.</li>
-        <li><b>Weekly</b> leaderboard resets every Monday.</li>
-      </ul>
-    </div>${help}`;
+  $('#view').innerHTML = `<div class="card"><h2>Referral Race</h2><p>Invite friends, climb the leaderboard, and win weekly rewards.</p>
+  <ul style="margin:6px 0 0 18px;color:#dfe5ff"><li>Share your referral link.</li><li>Every verified signup = <b>+1 point</b>.</li><li><b>Weekly</b> leaderboard resets every Monday.</li></ul></div>`;
 }
 </script>
 
-<!-- Firestore loader (reads leaderboard) -->
+<!-- Firestore loader for the Ranks tab -->
 <script type="module">
-  // 1) YOUR FIREBASE CONFIG (from your console)
   const firebaseConfig = {
     apiKey: "AIzaSyABCZr2auIlT3ipJBGLJpHJi_CsQNQ0RQc",
     authDomain: "referral-race.firebaseapp.com",
@@ -229,19 +132,17 @@ function renderHome(){
   const app = initializeApp(firebaseConfig);
   const db  = getFirestore(app);
 
-  // Load rows for the current tenant/board
   async function fsLoadAll(){
-    const tenant = getParam('tenant');
-    const board  = getParam('board') || 'current';
-    if(!tenant) throw new Error('Missing ?tenant=<uid>');
-    const col = collection(db, 'tenants', tenant, 'leaderboards', board, 'entries');
-    const snap = await getDocs(query(col, orderBy('points','desc')));
+    const tenant = (new URL(location.href)).searchParams.get('tenant') || 'DEMO_TENANT_ID';
+    const board  = (new URL(location.href)).searchParams.get('board')  || 'current';
+    const col    = collection(db, 'tenants', tenant, 'leaderboards', board, 'entries');
+    const snap   = await getDocs(query(col, orderBy('points','desc')));
     return snap.docs.map(d=>{
-      const x=d.data(); return {username:x.username||d.id, points:Number(x.points||0), week:String(x.week||''), avatar:x.avatar||''};
+      const x=d.data();
+      return { username:x.username||d.id, points:Number(x.points||0), week:String(x.week||''), avatar:x.avatar||'' };
     });
   }
 
-  // Expose a function used by renderRanks()
   window.fetchGViz = async function(){
     const arr = await fsLoadAll();
     return { headers:['username','points','week','avatar'], rows: arr.map(x=>[x.username,x.points,x.week,x.avatar]) };
@@ -257,7 +158,6 @@ async function renderRanks(){
       <button id="prevBtn" class="wbtn" type="button">◀</button>
       <button id="nextBtn" class="wbtn" type="button">▶</button>
     </div></div>
-
     <div class="podiumCard">
       <div class="cap">Weekly Podium</div>
       <div class="podium">
@@ -266,239 +166,101 @@ async function renderRanks(){
         <div class="step s3"><div class="badge b3">3</div><div class="av" id="rr-p3a"></div><div class="name" id="rr-p3n">—</div><div class="scoreMini" id="rr-p3s"></div></div>
       </div>
     </div>
-
     <div class="list" id="rr-list"></div>
-
     <div class="search"><input id="rr-q" class="input" placeholder="Search username (top 100)…"/><button id="rr-find" class="go" type="button">Find</button></div>
-    <div id="rr-mine" class="result"></div>
+    <div id="rr-mine" class="result" style="display:none"></div>
   </div>`;
 
   try{
     const res = await window.fetchGViz();
     window.ALL = (res.rows||[]).map(r=>({username:String(r[0]||'').trim(),points:Number(r[1]||0),week:String(r[2]||''),avatar:String(r[3]||'')}));
-  }catch(err){
-    $('#view').innerHTML = `<div class="card"><h2>Ranks</h2><p>Couldn’t load leaderboard. ${esc(err.message||err)}</p><p class="tip">Make sure you opened the link with <code>?tenant=&lt;UID&gt;&amp;board=&lt;boardId&gt;</code> and data exists.</p></div>`;
-    return;
+  }catch(e){
+    console.warn('Firestore read failed:', e);
+    window.ALL = [];
   }
 
-  let set={}, list=[];
-  ALL.forEach(x=>{ if(x.week) set[x.week]=true; });
-  for(const k in set) list.push(k);
-  list.sort((a,b)=>{ const na=(a.match(/\d+/)||[])[0], nb=(b.match(/\d+/)||[])[0]; if(na&&nb) return na-nb; return a.localeCompare(b); });
-  WEEKS=list; CUR_WEEK = (WEEKS[WEEKS.length-1]||'');
-
-  const sel = $('#weekSel'); sel.innerHTML='';
-  WEEKS.forEach(w=>{ const o=document.createElement('option'); o.value=w; o.textContent=w; sel.appendChild(o); });
-  sel.value=CUR_WEEK;
-
-  function byWeek(week){
-    const arr = ALL.filter(x=>x.week===week).sort((a,b)=>b.points-a.points);
-    arr.forEach((x,i)=>{ if(x.rank==null) x.rank=i+1; });
-    return arr;
+  let WEEKS=[], CUR_WEEK='', TOP100=[];
+  function buildWeeks(){
+    const set=new Set(ALL.map(x=>x.week).filter(Boolean));
+    WEEKS=[...set].sort((a,b)=>{
+      const na=(a.match(/\d+/)||[])[0], nb=(b.match(/\d+/)||[])[0];
+      return na&&nb? na-nb : a.localeCompare(b);
+    });
+    CUR_WEEK=WEEKS[WEEKS.length-1]||'';
   }
   function setPod(id,row){
     $('#rr-p'+id+'a').style.backgroundImage = faceBg(row?row.avatar:'');
     $('#rr-p'+id+'n').textContent = row?row.username:'—';
     $('#rr-p'+id+'s').textContent = row? (fmt(row.points)+' pts') : '';
   }
+  function byWeek(w){
+    const arr = ALL.filter(x=>x.week===w).sort((a,b)=>b.points-a.points);
+    arr.forEach((x,i)=> x.rank=i+1);
+    return arr;
+  }
   function renderWeek(){
     const items = byWeek(CUR_WEEK);
-    setPod(1,items[0]||null); setPod(2,items[1]||null); setPod(3,items[2]||null);
-    const list = $('#rr-list'); list.innerHTML='';
+    setPod(1,items[0]); setPod(2,items[1]); setPod(3,items[2]);
+    const list=$('#rr-list'); list.innerHTML='';
     items.slice(3,15).forEach(r=>{
       const row=document.createElement('div'); row.className='row';
-      row.innerHTML = '<div class="rk">'+r.rank+'</div>'+
-        '<div class="left"><div class="face" style="background-image:'+faceBg(r.avatar)+'"></div><div class="uname">'+esc(r.username)+'</div></div>'+
-        '<div class="val">'+fmt(r.points)+'</div>';
+      row.innerHTML = `<div class="rk">${r.rank}</div>
+        <div class="left"><div class="face" style="background-image:${faceBg(r.avatar)}"></div><div class="uname">${esc(r.username)}</div></div>
+        <div class="val">${fmt(r.points)}</div>`;
       list.appendChild(row);
     });
     TOP100 = items.slice(0,100);
   }
+  function fillWeekUI(){
+    const sel=$('#weekSel'); sel.innerHTML='';
+    WEEKS.forEach(w=>{ const o=document.createElement('option'); o.value=w; o.textContent=w; sel.appendChild(o); });
+    sel.value=CUR_WEEK; renderWeek();
+    $('#rr-find').onclick=findUser;
+    $('#rr-q').addEventListener('keydown',e=>{ if(e.key==='Enter') findUser(); });
+    sel.onchange=()=>{ CUR_WEEK=sel.value; renderWeek(); };
+    $('#prevBtn').onclick=()=>{ const i=WEEKS.indexOf(CUR_WEEK); if(i>0){ CUR_WEEK=WEEKS[i-1]; sel.value=CUR_WEEK; renderWeek(); } };
+    $('#nextBtn').onclick=()=>{ const i=WEEKS.indexOf(CUR_WEEK); if(i<WEEKS.length-1){ CUR_WEEK=WEEKS[i+1]; sel.value=CUR_WEEK; renderWeek(); } };
+  }
   function findUser(){
-    const q = ($('#rr-q').value||'').trim().toLowerCase();
-    const res = $('#rr-mine');
-    if(!q){ res.style.display='block'; res.textContent='Enter a username'; return; }
-    const hit = TOP100.find(x=>x.username.toLowerCase()===q);
-    if(!hit){ res.style.display='block'; res.textContent='No match in Top 100.'; return; }
+    const q=($('#rr-q').value||'').trim().toLowerCase();
+    const res=$('#rr-mine'); if(!q){res.style.display='block'; res.textContent='Enter a username'; return;}
+    const hit=TOP100.find(x=>x.username.toLowerCase()===q);
     res.style.display='block';
-    res.innerHTML = '<b>'+esc(hit.username)+'</b> — Rank <b>'+hit.rank+'</b> • '+fmt(hit.points)+' pts • '+esc(hit.week);
+    res.innerHTML = hit? `<b>${esc(hit.username)}</b> — Rank <b>${hit.rank}</b> • ${fmt(hit.points)} pts • ${esc(hit.week)}`
+                       : 'No match in Top 100.';
   }
 
-  $('#weekSel').onchange = function(){ CUR_WEEK=this.value; renderWeek(); };
-  $('#prevBtn').onclick = function(){ const i=WEEKS.indexOf(CUR_WEEK); if(i>0){ CUR_WEEK=WEEKS[i-1]; $('#weekSel').value=CUR_WEEK; renderWeek(); } };
-  $('#nextBtn').onclick = function(){ const i=WEEKS.indexOf(CUR_WEEK); if(i<WEEKS.length-1){ CUR_WEEK=WEEKS[i+1]; $('#weekSel').value=CUR_WEEK; renderWeek(); } };
-  $('#rr-find').onclick = findUser;
-  $('#rr-q').addEventListener('keydown',e=>{ if(e.key==='Enter') findUser(); });
-
-  renderWeek();
+  buildWeeks(); fillWeekUI();
 }
 
 function renderTerms(){
-  $('#view').innerHTML = `
-  <div class="card"><h2>Terms & Conditions</h2><p>By joining the Referral Race, you agree to the rules below.</p></div>
+  $('#view').innerHTML = `<div class="card"><h2>Terms & Conditions</h2><p>By joining the Referral Race, you agree to the rules below.</p></div>
   <div class="card"><h3>FAQ</h3>
-    <details open><summary>How do I earn points?</summary><p>Each verified signup via your link grants <b>+1 point</b>. Bonus events may add extra points.</p></details>
-    <details><summary>When are winners announced?</summary><p>Weekly winners every Monday.</p></details>
-    <details><summary>How do payouts work?</summary><p>Rewards are credited within 72 hours after announcement.</p></details>
-    <details><summary>Anti-fraud</summary><p>Duplicate or fake signups will be removed; repeated abuse may lead to disqualification.</p></details>
-  </div>`;
+  <details open><summary>How do I earn points?</summary><p>Each verified signup via your link grants <b>+1 point</b>.</p></details>
+  <details><summary>When are winners announced?</summary><p>Weekly winners every Monday.</p></details>
+  <details><summary>How do payouts work?</summary><p>Rewards are credited within 72 hours after announcement.</p></details>
+  <details><summary>Anti-fraud</summary><p>Duplicate or fake signups will be removed.</p></details></div>`;
 }
 
 function renderCommunity(){
-  const socials=[
-    {name:'Facebook',  url:'https://facebook.com/yourbrand',  icon:'facebook'},
-    {name:'Instagram', url:'https://instagram.com/yourbrand', icon:'instagram'},
-    {name:'Telegram',  url:'https://t.me/yourchannel',        icon:'telegram'},
-    {name:'X',         url:'https://twitter.com/yourbrand',   icon:'x'},
-    {name:'Youtube',   url:'https://youtube.com/@yourbrand',  icon:'youtube'}
-  ];
-  function iconSVG(key){
-    const s={facebook:'<svg viewBox="0 0 24 24"><path fill="#1877F2" d="M24 12.07C24 5.405 18.627 0 12 0S0 5.405 0 12.07C0 18.1 4.388 23.093 10.125 24v-8.44H7.078v-3.49h3.047V9.413c0-3.017 1.792-4.687 4.533-4.687 1.313 0 2.686.235 2.686.235v2.97h-1.514c-1.492 0-1.956.929-1.956 1.884v2.26h3.328l-.532 3.49h-2.796V24C19.612 23.093 24 18.1 24 12.07z"/></svg>',
-      instagram:'<svg viewBox="0 0 24 24"><defs><linearGradient id="ig" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#feda75"/><stop offset="50%" stop-color="#d62976"/><stop offset="100%" stop-color="#4f5bd5"/></linearGradient></defs><rect x="2" y="2" width="20" height="20" rx="5" fill="url(#ig)"/><circle cx="12" cy="12" r="4.5" fill="#fff"/><circle cx="17.2" cy="6.8" r="1.3" fill="#fff"/></svg>',
-      telegram:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="#27A7E7"/><path fill="#fff" d="M9.7 17.3l.3-3.2 7.3-6.6c.3-.3-.1-.4-.5-.2l-9 5.7-3.1-1c-.7-.2-.7-.7.1-1l12.1-4.7c.6-.2 1.1.1.9 1l-2.1 10.6c-.1.7-.5.9-1.1.6l-3-2.2-2 1.9c-.1.2-.5.1-.7 0z"/></svg>',
-      x:'<svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" fill="#000"/><path fill="#fff" d="M6 6l6.3 8.3L10 18h2.1l1.5-2.2L18 18h2l-6.7-8.7L16 6h-2l-1.3 2-1 1.5L9 6H6z"/></svg>',
-      youtube:'<svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="4" fill="#FF0000"/><path fill="#fff" d="M10 9l6 3-6 3z"/></svg>'
-    }; return s[key]||s['x'];
-  }
-  const rows = socials.map(s=>`<div class="socialItem"><div class="sLeft"><div class="sIcon">${iconSVG(s.icon)}</div><div class="sName">${s.name}</div></div><a class="subBtn" href="${s.url}" target="_blank" rel="noopener">Subscribe</a></div>`).join('');
+  const socials=[{name:'Facebook',url:'#',icon:'facebook'},{name:'Instagram',url:'#',icon:'instagram'},{name:'Telegram',url:'#',icon:'telegram'},{name:'X',url:'#',icon:'x'},{name:'Youtube',url:'#',icon:'youtube'}];
+  const icon=(k)=>({facebook:'<svg viewBox="0 0 24 24"><path fill="#1877F2" d="M24 12.07C24 5.405 18.627 0 12 0S0 5.405 0 12.07C0 18.1 4.388 23.093 10.125 24v-8.44H7.078v-3.49h3.047V9.413c0-3.017 1.792-4.687 4.533-4.687 1.313 0 2.686.235 2.686.235v2.97h-1.514c-1.492 0-1.956.929-1.956 1.884v2.26h3.328l-.532 3.49h-2.796V24C19.612 23.093 24 18.1 24 12.07z"/></svg>',
+    instagram:'<svg viewBox="0 0 24 24"><defs><linearGradient id="ig" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#feda75"/><stop offset="50%" stop-color="#d62976"/><stop offset="100%" stop-color="#4f5bd5"/></linearGradient></defs><rect x="2" y="2" width="20" height="20" rx="5" fill="url(#ig)"/><circle cx="12" cy="12" r="4.5" fill="#fff"/><circle cx="17.2" cy="6.8" r="1.3" fill="#fff"/></svg>',
+    telegram:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="#27A7E7"/><path fill="#fff" d="M9.7 17.3l.3-3.2 7.3-6.6c.3-.3-.1-.4-.5-.2l-9 5.7-3.1-1c-.7-.2-.7-.7.1-1l12.1-4.7c.6-.2 1.1.1.9 1l-2.1 10.6c-.1.7-.5.9-1.1.6l-3-2.2-2 1.9c-.1.2-.5.1-.7 0z"/></svg>',
+    x:'<svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" fill="#000"/><path fill="#fff" d="M6 6l6.3 8.3L10 18h2.1l1.5-2.2L18 18h2l-6.7-8.7L16 6h-2l-1.3 2-1 1.5L9 6H6z"/></svg>',
+    youtube:'<svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="4" fill="#FF0000"/><path fill="#fff" d="M10 9l6 3-6 3z"/></svg>'})[k];
+  const rows = socials.map(s=>`<div class="socialItem"><div class="sLeft"><div class="sIcon">${icon(s.icon)}</div><div class="sName">${s.name}</div></div><a class="subBtn" href="${s.url}" target="_blank" rel="noopener">Subscribe</a></div>`).join('');
   $('#view').innerHTML = `<div class="card"><h2>Share & Follow</h2><p>Invite friends and follow us.</p></div><div class="socialCard">${rows}</div>`;
 }
 
 function renderMiniGame(){
-  $('#view').innerHTML = `
-    <div class="card"><h2>Mini Game</h2>
-      <p class="tip">No points for now (fun mode). For fair rewards later: verify sessions (JWT), server-side score checks, cool-downs, replay caps, bot detection, and signed results.</p>
-    </div>
-    <div class="card">
-      <div class="mg-tabs">
-        <button class="mg-t active" data-game="flappy">Flappy Spin</button>
-        <button class="mg-t" data-game="plinko">Lucky Drop</button>
-        <button class="mg-t" data-game="jump">Jump to Win</button>
-      </div>
-      <div class="mg-wrap">
-        <div class="mg-head">
-          <div class="title" id="mgTitle">Flappy Spin</div>
-          <div class="ctrls">
-            <button class="mg-btn" id="mgStart">Start</button>
-            <button class="mg-btn" id="mgStop">Stop</button>
-          </div>
-        </div>
-        <canvas id="mgCanvas" class="mg-canvas" width="480" height="340"></canvas>
-      </div>
-      <div class="tip" id="mgTip">Tap / Space to flap. Don’t hit the chips!</div>
-    </div>
-  `;
-  const canvas = $('#mgCanvas'), ctx = canvas.getContext('2d');
-  const title = $('#mgTitle'), tip = $('#mgTip');
-  let game='flappy', RAF=null, cleanup=null;
-  function setCanvasSize(){ const w = canvas.clientWidth; canvas.width = Math.round(w); canvas.height = 340; }
-  setCanvasSize(); addEventListener('resize', setCanvasSize);
-
-  $all('.mg-t').forEach(b=>b.onclick=()=>{
-    $all('.mg-t').forEach(x=>x.classList.remove('active'));
-    b.classList.add('active'); game=b.dataset.game;
-    stopGame();
-    if(game==='flappy'){ title.textContent='Flappy Spin'; tip.textContent='Tap / Space to flap. Don’t hit the chips!'; }
-    if(game==='plinko'){ title.textContent='Lucky Drop'; tip.textContent='Tap / Click to drop a ball. Watch it bounce!'; }
-    if(game==='jump'){ title.textContent='Jump to Win'; tip.textContent='Tilt/Arrows to move. Auto-jump on platforms.'; }
-  });
-
-  $('#mgStart').onclick=()=> startGame();
-  $('#mgStop').onclick=()=> stopGame();
-
-  function runFlappy(){
-    const w=canvas.width, h=canvas.height;
-    let bird={x:w*0.28,y:h*0.45,r:12,vy:0};
-    let pipes=[], gap=110, t=0, gravity=0.45, jump=-6.5, alive=true;
-    function spawn(){ const top=40+Math.random()*(h-gap-80); pipes.push({x:w+20, top:top, bot:top+gap, w:38}); }
-    function flap(){ if(!alive) return; bird.vy=jump; }
-    canvas.onclick=flap; window.onkeydown=(e)=>{ if(e.code==='Space') flap(); };
-    function drawChip(x,y,r){ ctx.save(); ctx.translate(x,y); ctx.rotate(((t+x)*0.01)%Math.PI*2); ctx.fillStyle='#ffd86a'; ctx.beginPath(); ctx.arc(0,0,r,0,Math.PI*2); ctx.fill(); ctx.fillStyle='#5a3b00'; ctx.font='bold 12px Inter, sans-serif'; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillText('¢',0,0); ctx.restore(); }
-    function loop(){
-      RAF=requestAnimationFrame(loop); t++; ctx.clearRect(0,0,w,h); ctx.fillStyle='#081025'; ctx.fillRect(0,0,w,h);
-      if(t%90===0) spawn();
-      for(let i=pipes.length-1;i>=0;i--){ const p=pipes[i]; p.x-=2.2; ctx.fillStyle='#1b2b66'; ctx.fillRect(p.x,0,p.w,p.top); ctx.fillRect(p.x,p.bot,p.w,h-p.bot); drawChip(p.x+p.w/2,p.top-18,10); drawChip(p.x+p.w/2,p.bot+18,10); if(p.x+p.w<0) pipes.splice(i,1); if(bird.x>p.x-bird.r && bird.x<p.x+p.w+bird.r){ if(bird.y-bird.r<p.top || bird.y+bird.r>p.bot) alive=false; } }
-      bird.vy+=gravity; bird.y+=bird.vy; ctx.fillStyle='#7fe3ff'; ctx.beginPath(); ctx.arc(bird.x,bird.y,bird.r,0,Math.PI*2); ctx.fill(); ctx.fillStyle='#ffd86a'; ctx.fillRect(bird.x-10,bird.y-bird.r-10,20,6);
-      if(bird.y>h-10 || bird.y<10) alive=false;
-      if(!alive){ ctx.fillStyle='rgba(0,0,0,.45)'; ctx.fillRect(0,0,w,h); ctx.fillStyle='#fff'; ctx.font='bold 20px Inter'; ctx.textAlign='center'; ctx.fillText('Game Over', w/2,h/2); cancelAnimationFrame(RAF); }
-    }
-    loop(); return ()=>{ canvas.onclick=null; window.onkeydown=null; };
-  }
-
-  function runPlinko(){
-    const w=canvas.width, h=canvas.height;
-    const pins=[], cols=9, rows=7, spacing=w/(cols+1), offsetY=70;
-    for(let r=0;r<rows;r++){ for(let c=0;c<cols;c++){ const x = spacing*(c+1) + (r%2? spacing/2:0); const y = offsetY + r*38; if(x>20 && x<w-20) pins.push({x,y}); } }
-    let ball=null; function drop(x){ if(ball) return; ball={x:x||w/2,y:30,vx:0,vy:0,r:8}; }
-    canvas.onclick=(e)=>{ const rect=canvas.getBoundingClientRect(); drop(e.clientX-rect.left); };
-    function loop(){
-      RAF=requestAnimationFrame(loop); ctx.clearRect(0,0,w,h); ctx.fillStyle='#060b1a'; ctx.fillRect(0,0,w,h);
-      for(let s=0;s<cols+1;s++){ const sx = spacing*s + spacing/2; ctx.fillStyle='#11245a'; ctx.fillRect(sx-2,h-50,4,50); }
-      ctx.fillStyle='#8aa3ff'; pins.forEach(p=>{ ctx.beginPath(); ctx.arc(p.x,p.y,4,0,Math.PI*2); ctx.fill(); });
-      if(ball){ ball.vy+=0.35; ball.x+=ball.vx; ball.y+=ball.vy;
-        if(ball.x<ball.r){ ball.x=ball.r; ball.vx*=-0.6; } if(ball.x>w-ball.r){ ball.x=w-ball.r; ball.vx*=-0.6; }
-        pins.forEach(p=>{ const dx=ball.x-p.x, dy=ball.y-p.y; const d=Math.hypot(dx,dy); if(d<ball.r+5){ const ang=Math.atan2(dy,dx); const speed=Math.hypot(ball.vx,ball.vy)*0.9 + 1; const dir=(Math.random()<0.5?-1:1)*0.9; ball.vx = Math.cos(ang)*speed*dir; ball.vy = Math.sin(ang)*speed; const overlap=ball.r+5-d; ball.x+=Math.cos(ang)*overlap; ball.y+=Math.sin(ang)*overlap; }});
-        if(ball.y>h-10){ ball.vy*=-0.35; ball.y=h-10; ball.vx*=0.95; if(Math.abs(ball.vy)<0.5) ball=null; }
-        ctx.fillStyle='#ffd86a'; ctx.beginPath(); ctx.arc(ball.x,ball.y,ball.r,0,Math.PI*2); ctx.fill();
-      } else { const x = (Date.now()/8)%w; ctx.fillStyle='#fff8'; ctx.fillRect(x,30,2,20); }
-    }
-    loop(); return ()=>{ canvas.onclick=null; };
-  }
-
-  function runJump(){
-    const w=canvas.width, h=canvas.height;
-    let player={x:w/2,y:h-40,vx:0,vy:-8,r:12};
-    let plats=[]; const count=12; for(let i=0;i<count;i++){ plats.push({x:Math.random()*(w-80)+40, y:i*(h/count)}); }
-    let ax=0; function onKey(e,down){ if(e.code==='ArrowLeft') ax=down?-0.4:0; if(e.code==='ArrowRight') ax=down?0.4:0; }
-    window.addEventListener('keydown', e=>onKey(e,true)); window.addEventListener('keyup', e=>onKey(e,false));
-    if(window.DeviceMotionEvent){ window.addEventListener('deviceorientation',e=>{ if(e.gamma!=null) ax = Math.max(-0.5, Math.min(0.5, e.gamma/50)); }); }
-    function loop(){
-      RAF=requestAnimationFrame(loop); ctx.clearRect(0,0,w,h); ctx.fillStyle='#050a18'; ctx.fillRect(0,0,w,h);
-      player.vx += ax; player.vx *= 0.98; player.x += player.vx; player.vy += 0.25; player.y += player.vy;
-      if(player.x<player.r) {player.x=player.r; player.vx*=-0.6;} if(player.x>w-player.r){player.x=w-player.r; player.vx*=-0.6;}
-      if(player.y < h*0.4){ const dy = (h*0.4 - player.y); player.y += dy; plats.forEach(p=> p.y += dy); }
-      plats.forEach(p=>{ ctx.fillStyle='#273a8c'; ctx.fillRect(p.x-30,p.y,60,8); if(player.vy>0 && player.y+player.r<p.y+8 && player.y+player.r>p.y && Math.abs(player.x - p.x) < 34){ player.vy = -7.8; } if(p.y>h+20){ p.y = -20; p.x = Math.random()*(w-80)+40; }});
-      ctx.fillStyle='#7fe3ff'; ctx.beginPath(); ctx.arc(player.x,player.y,player.r,0,Math.PI*2); ctx.fill(); ctx.fillStyle='#ffd86a'; ctx.fillRect(player.x-10,player.y-player.r-10,20,6);
-      if(player.y>h+80){ ctx.fillStyle='rgba(0,0,0,.45)'; ctx.fillRect(0,0,w,h); ctx.fillStyle='#fff'; ctx.font='bold 20px Inter'; ctx.textAlign='center'; ctx.fillText('You fell!', w/2,h/2); cancelAnimationFrame(RAF); }
-    }
-    loop(); return ()=>{ window.onkeydown=null; window.onkeyup=null; };
-  }
-
-  function startGame(){ stopGame(); if(game==='flappy') cleanup=runFlappy(); else if(game==='plinko') cleanup=runPlinko(); else cleanup=runJump(); }
-  function stopGame(){ if(RAF) cancelAnimationFrame(RAF); if(cleanup) { try{cleanup();}catch(e){} cleanup=null; } ctx.clearRect(0,0,canvas.width,canvas.height); ctx.fillStyle='#0a0f22'; ctx.fillRect(0,0,canvas.width,canvas.height); ctx.fillStyle='#fff'; ctx.font='bold 16px Inter'; ctx.textAlign='center'; ctx.fillText('Press Start', canvas.width/2, canvas.height/2); }
-  stopGame();
+  $('#view').innerHTML = `<div class="card"><h2>Mini Game</h2><p class="tip">Fun mode only.</p></div>`;
 }
 
 $all('.iconnav .itab').forEach(btn=>{
   btn.addEventListener('click', ()=>{ state.tab = btn.getAttribute('data-tab'); render(); });
 });
-
 render(); moveInk(0);
-
-(function(){
-  const audio=document.getElementById('bgm'); const btn=document.getElementById('soundBtn'); if(!audio||!btn) return;
-  const saved=localStorage.getItem('bgm_pref'); if(saved==='off'){ audio.muted=true; } if(saved==='on'){ audio.muted=false; }
-  document.addEventListener('DOMContentLoaded', tryPlay, {once:true});
-  async function tryPlay(){
-    try{
-      if(localStorage.getItem('bgm_pref')==='off'){ btn.classList.add('show'); return; }
-      audio.muted=false; await audio.play(); btn.classList.remove('show'); localStorage.setItem('bgm_pref','on');
-    }catch(e){ btn.classList.add('show'); bindGlobalUnlock(); }
-  }
-  function bindGlobalUnlock(){
-    const unlock=async()=>{ try{ audio.muted=false; await audio.play(); btn.classList.remove('show'); btn.classList.add('active'); localStorage.setItem('bgm_pref','on'); remove(); }catch(e){} };
-    const remove=()=>{ document.removeEventListener('pointerdown',unlock); document.removeEventListener('keydown',unlock); document.removeEventListener('touchstart',unlock,{passive:true}); };
-    document.addEventListener('pointerdown',unlock); document.addEventListener('keydown',unlock); document.addEventListener('touchstart',unlock,{passive:true});
-  }
-  btn.addEventListener('click', async ()=>{
-    try{
-      if(audio.paused){ audio.muted=false; await audio.play(); }
-      else { audio.muted=!audio.muted; if(audio.muted) await audio.pause(); else await audio.play(); }
-      const on=!audio.paused && !audio.muted; btn.classList.toggle('active',on); if(on) btn.classList.remove('show');
-      localStorage.setItem('bgm_pref', on?'on':'off');
-    }catch(e){ /* ignore */ }
-  });
-})();
 </script>
 </body>
 </html>

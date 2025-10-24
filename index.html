@@ -3,119 +3,71 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
-<title>Referral Race + Mini Games</title>
+<title>Referral Race — Leaderboard</title>
 <style>
-  :root{--bg:#0c0c12;--ink:#eef2ff;--muted:#a0a7c9;--edge:rgba(255,255,255,.08);--p1:#8b5dff;--p2:#aa74ff;--glow:rgba(153,120,255,.3);--acc:#ffd86a}
+  :root{
+    --bg:#0c0c12;--ink:#eef2ff;--muted:#a0a7c9;
+    --edge:rgba(255,255,255,.08);--p1:#8b5dff;--p2:#aa74ff;
+    --glow:rgba(153,120,255,.3);--acc:#ffd86a;
+  }
   *{box-sizing:border-box}
-  html,body{margin:0;height:100%;overflow-x:hidden;background:radial-gradient(1000px 700px at 50% -10%, #1b1c3f 0%, transparent 60%),linear-gradient(180deg,#0b0c1a,#070813);color:var(--ink);font:15px/1.5 Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;-webkit-tap-highlight-color:transparent}
-  .app{max-width:520px;margin:0 auto;min-height:100dvh;display:grid;grid-template-rows:auto 1fr;overflow-x:hidden}
-  header{position:sticky;top:0;background:linear-gradient(180deg,#10112a,#0d0e23);border-bottom:1px solid var(--edge);padding:12px 16px;z-index:20}
-  .hrow{display:flex;align-items:center;justify-content:space-between}
-  .title{font-weight:900;font-size:18px;letter-spacing:.4px}
-  main{padding:14px 14px 116px}
-  .card{background:linear-gradient(180deg,#151533,#10112a);border:1px solid var(--edge);border-radius:16px;padding:14px;margin-bottom:12px}
-  h2{margin:0 0 8px;font-size:18px}
-  h3{margin:0 0 8px;font-size:16px}
-  p{margin:0 0 8px;color:#dfe5ff}
-
-  /* Ranking */
-  .rr{--ink:#2b2350;--gold:#ffcf5a;--silver:#dbe6ff;--bronze:#ffd9b3;width:100%}
-  .rr .controls{display:flex;align-items:center;gap:8px}
-  .rr .select,.rr .wbtn{appearance:none;border:0;border-radius:10px;padding:9px 10px;font-weight:800}
-  .rr .select{background:#ffffffbf;color:#2d1b55}
-  .rr .wbtn{background:#ffd86a;color:#3a2400;box-shadow:0 4px 0 rgba(0,0,0,.12);cursor:pointer}
-  .rr .wbtn:active{transform:translateY(1px);box-shadow:0 2px 0 rgba(0,0,0,.12)}
-  .rr .podiumCard{margin-top:12px;border-radius:22px;padding:16px 12px 12px;background:linear-gradient(180deg,#f0e6ff,#f9f1ff);border:1px solid rgba(255,255,255,.55);color:var(--ink);box-shadow:0 24px 60px rgba(36,18,66,.35);overflow:hidden}
-  .rr .cap{display:flex;justify-content:center;gap:10px;align-items:center;color:#876dc9;font-weight:900;font-size:12px;letter-spacing:.4px;margin-bottom:10px}
-  .rr .podium{display:grid;grid-template-columns:1fr 1.2fr 1fr;gap:10px;align-items:end}
-  .rr .step{position:relative;border-radius:16px 16px 10px 10px;background:linear-gradient(180deg,#ffffff,#f0ecff);padding:10px 8px 12px;border:1px solid rgba(44,26,74,.12);box-shadow: inset 0 -12px 18px rgba(100,70,180,.10), 0 8px 18px rgba(0,0,0,.10);display:grid;place-items:center;min-height:86px}
-  .rr .s1{min-height:120px}.rr .s2{min-height:100px}.rr .s3{min-height:96px}
-  .rr .badge{position:absolute;top:-20px;left:50%;transform:translateX(-50%);width:58px;height:58px;border-radius:50%;display:grid;place-items:center;font-weight:900;border:2px solid rgba(0,0,0,.06);box-shadow:0 6px 14px rgba(0,0,0,.18)}
-  .rr .b1{background:radial-gradient(circle at 35% 30%, #fff, var(--gold) 65%);color:#5a4300}
-  .rr .b2{background:radial-gradient(circle at 35% 30%, #fff, var(--silver) 65%);color:#1d2945}
-  .rr .b3{background:radial-gradient(circle at 35% 30%, #fff, var(--bronze) 65%);color:#4a2c12}
-  .rr .av{position:absolute;top:-64px;left:50%;transform:translateX(-50%);width:76px;height:76px;border-radius:50%;border:4px solid #fff;box-shadow:0 10px 22px rgba(0,0,0,.25);background:#fff center/cover no-repeat}
-  .rr .name{margin-top:14px;font-weight:900;color:#32245c;max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .rr .scoreMini{color:#6b5d9c;font-size:12px;margin-top:2px}
-  .rr .list{margin-top:12px;display:grid;gap:8px}
-  .rr .row{display:grid;grid-template-columns:46px 1fr auto;gap:8px;align-items:center;background:linear-gradient(180deg,rgba(255,255,255,.9),rgba(255,255,255,.75));border:1px solid rgba(0,0,0,.06);border-radius:14px;padding:10px;color:#2b2350}
-  .rr .rk{display:grid;place-items:center;width:38px;height:38px;border-radius:12px;font-weight:900;background:#f0ecff;border:1px solid rgba(0,0,0,.06)}
-  .rr .face{width:38px;height:38px;border-radius:50%;background:#eee center/cover no-repeat;border:2px solid #fff;margin-right:8px}
-  .rr .uname{font-weight:800}
-  .rr .val{font-weight:900;color:#5b4bb4}
-  .rr .row .left{display:flex;align-items:center;gap:8px}
-  .rr .search{margin-top:12px;display:grid;grid-template-columns:1fr auto;gap:8px}
-  .rr .input{border-radius:12px;border:1px solid var(--edge);background:#0f1030;color:#eff3ff;padding:10px 12px}
-  .rr .go{appearance:none;border:0;border-radius:12px;padding:10px 12px;background:#ffd86a;color:#3a2400;font-weight:900;cursor:pointer;box-shadow:0 4px 0 rgba(0,0,0,.12)}
-  .rr .go:active{transform:translateY(1px);box-shadow:0 2px 0 rgba(0,0,0,.12)}
-
-  /* Bottom nav */
-  .iconnav{position:fixed;left:50%;transform:translateX(-50%);bottom:max(8px, env(safe-area-inset-bottom));width:min(520px, 100% - 12px);display:grid;grid-template-columns:repeat(5,1fr);gap:8px;padding:10px 12px;background:rgba(16,17,42,.98);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.08);border-radius:16px;box-shadow:0 18px 38px rgba(0,0,0,.28), 0 2px 0 rgba(255,255,255,.04) inset;z-index:1000;--hot:#ff4fd8;--hot2:#ff9ae8;--ix:0}
-  .iconnav .itab{position:relative;isolation:isolate;appearance:none;border:0;background:transparent;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:6px;padding:10px 6px;color:#cdd7ff;font-weight:800;border-radius:14px}
-  .iconnav .ico{width:26px;height:26px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;transition:transform .25s,color .25s}
-  .iconnav .itab.active .ico{transform:translateY(-2px) scale(1.06)}
-  .iconnav .itab.active,.iconnav .itab:focus-visible{color:#fff}
-  .iconnav .inkbar{position:absolute;bottom:10px;height:44px;z-index:0;pointer-events:none;left:12px;right:12px;width:calc((100% - 24px - 8px*4)/5);border-radius:16px;background:radial-gradient(90% 140% at 10% 0%,var(--hot) 0%,var(--hot2) 60%,#ffcabf 100%);box-shadow:0 12px 26px rgba(255,79,216,.35), inset 0 -2px 6px rgba(0,0,0,.18);transform:translateX(calc(var(--ix) * (100% + 8px)));transition:transform .28s cubic-bezier(.22,.9,.24,1)}
-  details{background:#14143a;border:1px solid var(--edge);border-radius:12px;padding:10px}
-  details+details{margin-top:8px}
-  summary{cursor:pointer;font-weight:800}
-  .socialCard{background: radial-gradient(120% 140% at 0% 0%, #5d2fff 0%, #4c22d8 35%, #3b1dbb 70%);border:1px solid rgba(255,255,255,.18);border-radius:20px;padding:12px;box-shadow:0 20px 50px rgba(0,0,0,.35)}
-  .socialItem{display:grid;grid-template-columns:1fr auto;align-items:center;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);border-radius:14px;padding:10px 12px}
-  .sLeft{display:flex;align-items:center;gap:10px;min-width:0}
-  .sIcon{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:#fff;color:#111;box-shadow:0 6px 14px rgba(0,0,0,.18)}
-  .sName{font-weight:800;letter-spacing:.2px}
-  .subBtn{appearance:none;border:0;padding:9px 14px;border-radius:10px;background:#fff;color:#222;font-weight:900;cursor:pointer;box-shadow:0 4px 0 rgba(0,0,0,.12)}
+  body,html{margin:0;height:100%;background:#0b0c18;color:var(--ink);
+    font-family:Inter,system-ui,Segoe UI,Roboto,sans-serif;}
+  .app{max-width:520px;margin:0 auto;padding-bottom:90px}
+  header{position:sticky;top:0;background:#10112a;border-bottom:1px solid var(--edge);
+    padding:14px;font-weight:900;font-size:18px;text-align:center;z-index:20}
+  .card{background:linear-gradient(180deg,#161733,#10112a);
+    border:1px solid var(--edge);border-radius:16px;padding:14px;margin:12px;}
+  .rr .podiumCard{margin:12px;border-radius:22px;padding:16px 12px;
+    background:linear-gradient(180deg,#f4eaff,#f9f6ff);color:#221a44;}
+  .rr .podium{display:grid;grid-template-columns:1fr 1.2fr 1fr;
+    gap:10px;align-items:end;text-align:center}
+  .rr .step{position:relative;background:linear-gradient(180deg,#fff,#ece7ff);
+    border-radius:16px;padding:10px;border:1px solid rgba(0,0,0,.06);
+    box-shadow:inset 0 -12px 18px rgba(100,70,180,.1),0 8px 18px rgba(0,0,0,.1)}
+  .rr .av{width:70px;height:70px;border-radius:50%;margin:0 auto;
+    background:#eee center/cover no-repeat;border:3px solid #fff;box-shadow:0 5px 10px rgba(0,0,0,.2)}
+  .rr .name{font-weight:800;margin-top:8px}
+  .rr .scoreMini{font-size:12px;color:#6a5ca8}
+  .rr .list{margin:10px 12px;display:grid;gap:8px}
+  .rr .row{display:grid;grid-template-columns:40px 1fr auto;align-items:center;
+    background:rgba(255,255,255,.1);border-radius:12px;padding:8px 10px}
+  .rr .rk{font-weight:900;text-align:center}
+  .rr .uname{font-weight:700}
+  .rr .val{font-weight:900;color:#ffd86a}
+  .rr .face{width:34px;height:34px;border-radius:50%;
+    background:#ccc center/cover no-repeat;margin-right:8px;border:2px solid #fff}
+  .rr .left{display:flex;align-items:center}
+  .search{display:grid;grid-template-columns:1fr auto;gap:8px;margin:12px}
+  input{border-radius:10px;border:1px solid var(--edge);
+    background:#0f1030;color:#fff;padding:10px}
+  button{border:0;border-radius:10px;padding:10px 14px;font-weight:900;
+    cursor:pointer;background:#ffd86a;color:#3a2400;}
+  /* bottom nav */
+  .iconnav{position:fixed;bottom:8px;left:50%;transform:translateX(-50%);
+    width:min(500px,calc(100% - 16px));display:grid;grid-template-columns:repeat(5,1fr);
+    background:#111229;padding:10px;border-radius:16px;box-shadow:0 8px 18px rgba(0,0,0,.3);
+    border:1px solid var(--edge);}
+  .iconnav button{background:none;border:0;color:#ccc;display:flex;
+    flex-direction:column;align-items:center;font-weight:700}
+  .iconnav button.active{color:#fff}
 </style>
 </head>
 <body>
 <div class="app">
-  <header>
-    <div class="hrow">
-      <div class="title" id="hdrTitle">Referral Race</div>
-      <div class="muted" style="font-size:12px">v1 • demo</div>
-    </div>
-  </header>
+  <header id="hdr">Referral Race</header>
   <main id="view"></main>
 </div>
 
-<nav class="iconnav" aria-label="Primary">
-  <div class="inkbar" aria-hidden="true"></div>
-  <button type="button" class="itab active" data-tab="home" data-idx="0"><svg class="ico" viewBox="0 0 24 24"><path d="M4 10.5l8-6 8 6V20a2 2 0 0 1-2 2h-3.5a1.5 1.5 0 0 1-1.5-1.5V16a2 2 0 0 0-2-2 2 2 0 0 0-2 2v4.5A1.5 1.5 0 0 1 7.5 22H4a2 2 0 0 1-2-2v-9.5z"/></svg><span>Home</span></button>
-  <button type="button" class="itab" data-tab="ranks" data-idx="1"><svg class="ico" viewBox="0 0 24 24"><path d="M7 22V11a2 2 0 0 1 2-2h6v13H7zM3 22v-7a2 2 0 0 1 2-2h1v9H3zM17 22V5a2 2 0 0 1 2-2h2v19h-4zM10 5l2-3 2 3"/></svg><span>Ranks</span></button>
-  <button type="button" class="itab" data-tab="terms" data-idx="2"><svg class="ico" viewBox="0 0 24 24"><path d="M6 3h9l4 4v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zM15 3v4h4M8 11h8M8 15h8M8 7h4"/></svg><span>T&amp;C</span></button>
-  <button type="button" class="itab" data-tab="community" data-idx="3"><svg class="ico" viewBox="0 0 24 24"><path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4zm0 2c-4 0-8 2-8 5v1h16v-1c0-3-4-5-8-5zM18.5 11.5a3 3 0 1 0-2.5-5 5.8 5.8 0 0 1 .7 2.5 5.8 5.8 0 0 1-.6 2.5 3 3 0 0 0 2.4 0z"/></svg><span>Community</span></button>
-  <button type="button" class="itab" data-tab="minigame" data-idx="4"><svg class="ico" viewBox="0 0 24 24"><path d="M4 8a4 4 0 0 1 4-4h2a2 2 0 0 1 2 2v1h2a2 2 0 0 1 2 2v1h2a2 2 0 0 1 2 2v2h-4l-2 3H8l-2-3H2v-3a3 3 0 0 1 2-3z"/></svg><span>Mini Game</span></button>
+<nav class="iconnav">
+  <button data-tab="home" class="active">🏠<span>Home</span></button>
+  <button data-tab="ranks">🏆<span>Ranks</span></button>
+  <button data-tab="terms">📜<span>T&amp;C</span></button>
+  <button data-tab="community">👥<span>Community</span></button>
+  <button data-tab="minigame">🎮<span>Mini Game</span></button>
 </nav>
 
-<script>
-const $=(s,el)=> (el||document).querySelector(s);
-const $all=(s,el)=> Array.from((el||document).querySelectorAll(s));
-const fmt=n=>{n=Number(n||0);return n>=1000? (Math.round(n/100)/10).toLocaleString()+"K": n.toLocaleString();}
-const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
-const faceBg=url=> url?`url("${url}")`:`url("data:image/svg+xml;utf8,${encodeURIComponent("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0%' stop-color='%23a0c4ff'/><stop offset='100%' stop-color='%238f6bff'/></linearGradient></defs><rect width='64' height='64' rx='16' fill='url(%23g)'/><circle cx='32' cy='26' r='12' fill='white' opacity='.9'/><rect x='14' y='40' width='36' height='16' rx='8' fill='white' opacity='.9'/></svg>")}')`;
-const getParam=k=> (location.search.match(new RegExp("[?&]"+k+"=([^&]+)","i"))||[])[1] && decodeURIComponent(RegExp.$1);
-let state={tab:'home'}; let ALL=[],WEEKS=[],CUR_WEEK='',TOP100=[];
-function moveInk(ix){ document.querySelector('.iconnav').style.setProperty('--ix', ix); }
-function render(){
-  $('#hdrTitle').textContent = state.tab==='ranks' ? 'Referral Ranking' :
-                               state.tab==='terms' ? 'Terms & FAQ' :
-                               state.tab==='community' ? 'Community' :
-                               state.tab==='minigame' ? 'Mini Game' : 'Referral Race';
-  $all('.iconnav .itab').forEach(b=>b.classList.toggle('active',b.dataset.tab===state.tab));
-  moveInk(parseInt(document.querySelector('.iconnav .itab.active')?.dataset.idx||'0',10));
-  if(state.tab==='ranks') renderRanks();
-  else if(state.tab==='terms') renderTerms();
-  else if(state.tab==='community') renderCommunity();
-  else if(state.tab==='minigame') renderMiniGame();
-  else renderHome();
-}
-function renderHome(){
-  $('#view').innerHTML = `<div class="card"><h2>Referral Race</h2><p>Invite friends, climb the leaderboard, and win weekly rewards.</p>
-  <ul style="margin:6px 0 0 18px;color:#dfe5ff"><li>Share your referral link.</li><li>Every verified signup = <b>+1 point</b>.</li><li><b>Weekly</b> leaderboard resets every Monday.</li></ul></div>`;
-}
-</script>
-
-<!-- Firestore loader for the Ranks tab -->
+<!-- Firebase + Firestore -->
 <script type="module">
   const firebaseConfig = {
     apiKey: "AIzaSyABCZr2auIlT3ipJBGLJpHJi_CsQNQ0RQc",
@@ -125,142 +77,102 @@ function renderHome(){
     messagingSenderId: "866066081377",
     appId: "1:866066081377:web:c5945830784f19e9af2c20"
   };
-
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
   import { getFirestore, collection, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-
   const app = initializeApp(firebaseConfig);
-  const db  = getFirestore(app);
+  const db = getFirestore(app);
 
-  async function fsLoadAll(){
-    const tenant = (new URL(location.href)).searchParams.get('tenant') || 'DEMO_TENANT_ID';
-    const board  = (new URL(location.href)).searchParams.get('board')  || 'current';
-    const col    = collection(db, 'tenants', tenant, 'leaderboards', board, 'entries');
-    const snap   = await getDocs(query(col, orderBy('points','desc')));
-    return snap.docs.map(d=>{
-      const x=d.data();
-      return { username:x.username||d.id, points:Number(x.points||0), week:String(x.week||''), avatar:x.avatar||'' };
-    });
+  const view=document.getElementById('view');
+  const hdr=document.getElementById('hdr');
+  let state={tab:'home'};
+  const navBtns=document.querySelectorAll('.iconnav button');
+  navBtns.forEach(btn=>btn.onclick=()=>{
+    navBtns.forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    state.tab=btn.dataset.tab; render();
+  });
+
+  function face(url){return url?`url(${url})`:`url(data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><circle cx='32' cy='26' r='14' fill='%23fff'/><rect x='16' y='42' width='32' height='16' rx='8' fill='%23fff'/></svg>)`}
+
+  async function loadLeaderboard(){
+    const tenant=new URL(location).searchParams.get('tenant');
+    const board=new URL(location).searchParams.get('board')||'current';
+    if(!tenant)return [];
+    const snap=await getDocs(query(collection(db,'tenants',tenant,'leaderboards',board,'entries'),orderBy('points','desc')));
+    return snap.docs.map(d=>d.data());
   }
 
-  window.fetchGViz = async function(){
-    const arr = await fsLoadAll();
-    return { headers:['username','points','week','avatar'], rows: arr.map(x=>[x.username,x.points,x.week,x.avatar]) };
-  };
-</script>
-
-<script>
-async function renderRanks(){
-  $('#view').innerHTML = `
-  <div class="rr">
-    <div class="card"><div class="controls">
-      <select id="weekSel" class="select"></select>
-      <button id="prevBtn" class="wbtn" type="button">◀</button>
-      <button id="nextBtn" class="wbtn" type="button">▶</button>
-    </div></div>
-    <div class="podiumCard">
-      <div class="cap">Weekly Podium</div>
-      <div class="podium">
-        <div class="step s2"><div class="badge b2">2</div><div class="av" id="rr-p2a"></div><div class="name" id="rr-p2n">—</div><div class="scoreMini" id="rr-p2s"></div></div>
-        <div class="step s1"><div class="badge b1">1</div><div class="av" id="rr-p1a"></div><div class="name" id="rr-p1n">—</div><div class="scoreMini" id="rr-p1s"></div></div>
-        <div class="step s3"><div class="badge b3">3</div><div class="av" id="rr-p3a"></div><div class="name" id="rr-p3n">—</div><div class="scoreMini" id="rr-p3s"></div></div>
+  async function renderRanks(){
+    hdr.textContent="Referral Ranking";
+    view.innerHTML=`<div class='rr'>
+      <div class='podiumCard'>
+        <div class='podium'>
+          <div class='step'><div class='av' id='p2'></div><div class='name' id='n2'>-</div><div class='scoreMini' id='s2'></div></div>
+          <div class='step'><div class='av' id='p1'></div><div class='name' id='n1'>-</div><div class='scoreMini' id='s1'></div></div>
+          <div class='step'><div class='av' id='p3'></div><div class='name' id='n3'>-</div><div class='scoreMini' id='s3'></div></div>
+        </div>
       </div>
-    </div>
-    <div class="list" id="rr-list"></div>
-    <div class="search"><input id="rr-q" class="input" placeholder="Search username (top 100)…"/><button id="rr-find" class="go" type="button">Find</button></div>
-    <div id="rr-mine" class="result" style="display:none"></div>
-  </div>`;
-
-  try{
-    const res = await window.fetchGViz();
-    window.ALL = (res.rows||[]).map(r=>({username:String(r[0]||'').trim(),points:Number(r[1]||0),week:String(r[2]||''),avatar:String(r[3]||'')}));
-  }catch(e){
-    console.warn('Firestore read failed:', e);
-    window.ALL = [];
-  }
-
-  let WEEKS=[], CUR_WEEK='', TOP100=[];
-  function buildWeeks(){
-    const set=new Set(ALL.map(x=>x.week).filter(Boolean));
-    WEEKS=[...set].sort((a,b)=>{
-      const na=(a.match(/\d+/)||[])[0], nb=(b.match(/\d+/)||[])[0];
-      return na&&nb? na-nb : a.localeCompare(b);
+      <div class='list' id='list'></div>
+      <div class='search'><input id='q' placeholder='Search username...'><button id='find'>Find</button></div>
+      <div id='mine'></div>
+    </div>`;
+    const data=await loadLeaderboard();
+    if(!data.length){view.innerHTML+="<p style='text-align:center;opacity:.6'>No data yet</p>";return;}
+    data.sort((a,b)=>b.points-a.points);
+    const top=data.slice(0,3);
+    [1,2,3].forEach(i=>{
+      const r=top[i-1];
+      if(!r)return;
+      document.getElementById('p'+i).style.backgroundImage=face(r.avatar);
+      document.getElementById('n'+i).textContent=r.username;
+      document.getElementById('s'+i).textContent=r.points+" pts";
     });
-    CUR_WEEK=WEEKS[WEEKS.length-1]||'';
-  }
-  function setPod(id,row){
-    $('#rr-p'+id+'a').style.backgroundImage = faceBg(row?row.avatar:'');
-    $('#rr-p'+id+'n').textContent = row?row.username:'—';
-    $('#rr-p'+id+'s').textContent = row? (fmt(row.points)+' pts') : '';
-  }
-  function byWeek(w){
-    const arr = ALL.filter(x=>x.week===w).sort((a,b)=>b.points-a.points);
-    arr.forEach((x,i)=> x.rank=i+1);
-    return arr;
-  }
-  function renderWeek(){
-    const items = byWeek(CUR_WEEK);
-    setPod(1,items[0]); setPod(2,items[1]); setPod(3,items[2]);
-    const list=$('#rr-list'); list.innerHTML='';
-    items.slice(3,15).forEach(r=>{
-      const row=document.createElement('div'); row.className='row';
-      row.innerHTML = `<div class="rk">${r.rank}</div>
-        <div class="left"><div class="face" style="background-image:${faceBg(r.avatar)}"></div><div class="uname">${esc(r.username)}</div></div>
-        <div class="val">${fmt(r.points)}</div>`;
-      list.appendChild(row);
+    const list=document.getElementById('list');
+    data.forEach((r,i)=>{
+      if(i<3)return;
+      const div=document.createElement('div');
+      div.className='row';
+      div.innerHTML=`<div class='rk'>${i+1}</div>
+        <div class='left'><div class='face' style='background-image:${face(r.avatar)}'></div>
+        <div class='uname'>${r.username}</div></div>
+        <div class='val'>${r.points}</div>`;
+      list.append(div);
     });
-    TOP100 = items.slice(0,100);
-  }
-  function fillWeekUI(){
-    const sel=$('#weekSel'); sel.innerHTML='';
-    WEEKS.forEach(w=>{ const o=document.createElement('option'); o.value=w; o.textContent=w; sel.appendChild(o); });
-    sel.value=CUR_WEEK; renderWeek();
-    $('#rr-find').onclick=findUser;
-    $('#rr-q').addEventListener('keydown',e=>{ if(e.key==='Enter') findUser(); });
-    sel.onchange=()=>{ CUR_WEEK=sel.value; renderWeek(); };
-    $('#prevBtn').onclick=()=>{ const i=WEEKS.indexOf(CUR_WEEK); if(i>0){ CUR_WEEK=WEEKS[i-1]; sel.value=CUR_WEEK; renderWeek(); } };
-    $('#nextBtn').onclick=()=>{ const i=WEEKS.indexOf(CUR_WEEK); if(i<WEEKS.length-1){ CUR_WEEK=WEEKS[i+1]; sel.value=CUR_WEEK; renderWeek(); } };
-  }
-  function findUser(){
-    const q=($('#rr-q').value||'').trim().toLowerCase();
-    const res=$('#rr-mine'); if(!q){res.style.display='block'; res.textContent='Enter a username'; return;}
-    const hit=TOP100.find(x=>x.username.toLowerCase()===q);
-    res.style.display='block';
-    res.innerHTML = hit? `<b>${esc(hit.username)}</b> — Rank <b>${hit.rank}</b> • ${fmt(hit.points)} pts • ${esc(hit.week)}`
-                       : 'No match in Top 100.';
+    document.getElementById('find').onclick=()=>{
+      const q=document.getElementById('q').value.trim().toLowerCase();
+      const me=data.find(x=>x.username.toLowerCase()===q);
+      const mine=document.getElementById('mine');
+      if(me)mine.innerHTML=`⭐ ${me.username}: ${me.points} pts (Rank ${data.indexOf(me)+1})`;
+      else mine.innerHTML='No match found';
+    };
   }
 
-  buildWeeks(); fillWeekUI();
-}
+  function renderHome(){
+    hdr.textContent="Referral Race";
+    view.innerHTML=`<div class='card'><h2>Welcome!</h2><p>Invite friends to join Rico.bet and climb the leaderboard to win prizes every week!</p></div>`;
+  }
+  function renderTerms(){
+    hdr.textContent="Terms & Conditions";
+    view.innerHTML=`<div class='card'><h2>Rules</h2><ul><li>1 point per verified signup</li><li>Top winners every Monday</li><li>Fraudulent referrals are disqualified</li></ul></div>`;
+  }
+  function renderCommunity(){
+    hdr.textContent="Community";
+    view.innerHTML=`<div class='card'><p>Follow our channels for news and bonus drops:</p>
+      <p>📢 Telegram • 🎰 Instagram • 💎 Discord</p></div>`;
+  }
+  function renderMiniGame(){
+    hdr.textContent="Mini Game";
+    view.innerHTML=`<div class='card'><h2>Coming Soon</h2><p>Mini games to earn bonus points!</p></div>`;
+  }
 
-function renderTerms(){
-  $('#view').innerHTML = `<div class="card"><h2>Terms & Conditions</h2><p>By joining the Referral Race, you agree to the rules below.</p></div>
-  <div class="card"><h3>FAQ</h3>
-  <details open><summary>How do I earn points?</summary><p>Each verified signup via your link grants <b>+1 point</b>.</p></details>
-  <details><summary>When are winners announced?</summary><p>Weekly winners every Monday.</p></details>
-  <details><summary>How do payouts work?</summary><p>Rewards are credited within 72 hours after announcement.</p></details>
-  <details><summary>Anti-fraud</summary><p>Duplicate or fake signups will be removed.</p></details></div>`;
-}
-
-function renderCommunity(){
-  const socials=[{name:'Facebook',url:'#',icon:'facebook'},{name:'Instagram',url:'#',icon:'instagram'},{name:'Telegram',url:'#',icon:'telegram'},{name:'X',url:'#',icon:'x'},{name:'Youtube',url:'#',icon:'youtube'}];
-  const icon=(k)=>({facebook:'<svg viewBox="0 0 24 24"><path fill="#1877F2" d="M24 12.07C24 5.405 18.627 0 12 0S0 5.405 0 12.07C0 18.1 4.388 23.093 10.125 24v-8.44H7.078v-3.49h3.047V9.413c0-3.017 1.792-4.687 4.533-4.687 1.313 0 2.686.235 2.686.235v2.97h-1.514c-1.492 0-1.956.929-1.956 1.884v2.26h3.328l-.532 3.49h-2.796V24C19.612 23.093 24 18.1 24 12.07z"/></svg>',
-    instagram:'<svg viewBox="0 0 24 24"><defs><linearGradient id="ig" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#feda75"/><stop offset="50%" stop-color="#d62976"/><stop offset="100%" stop-color="#4f5bd5"/></linearGradient></defs><rect x="2" y="2" width="20" height="20" rx="5" fill="url(#ig)"/><circle cx="12" cy="12" r="4.5" fill="#fff"/><circle cx="17.2" cy="6.8" r="1.3" fill="#fff"/></svg>',
-    telegram:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="#27A7E7"/><path fill="#fff" d="M9.7 17.3l.3-3.2 7.3-6.6c.3-.3-.1-.4-.5-.2l-9 5.7-3.1-1c-.7-.2-.7-.7.1-1l12.1-4.7c.6-.2 1.1.1.9 1l-2.1 10.6c-.1.7-.5.9-1.1.6l-3-2.2-2 1.9c-.1.2-.5.1-.7 0z"/></svg>',
-    x:'<svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" fill="#000"/><path fill="#fff" d="M6 6l6.3 8.3L10 18h2.1l1.5-2.2L18 18h2l-6.7-8.7L16 6h-2l-1.3 2-1 1.5L9 6H6z"/></svg>',
-    youtube:'<svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="4" fill="#FF0000"/><path fill="#fff" d="M10 9l6 3-6 3z"/></svg>'})[k];
-  const rows = socials.map(s=>`<div class="socialItem"><div class="sLeft"><div class="sIcon">${icon(s.icon)}</div><div class="sName">${s.name}</div></div><a class="subBtn" href="${s.url}" target="_blank" rel="noopener">Subscribe</a></div>`).join('');
-  $('#view').innerHTML = `<div class="card"><h2>Share & Follow</h2><p>Invite friends and follow us.</p></div><div class="socialCard">${rows}</div>`;
-}
-
-function renderMiniGame(){
-  $('#view').innerHTML = `<div class="card"><h2>Mini Game</h2><p class="tip">Fun mode only.</p></div>`;
-}
-
-$all('.iconnav .itab').forEach(btn=>{
-  btn.addEventListener('click', ()=>{ state.tab = btn.getAttribute('data-tab'); render(); });
-});
-render(); moveInk(0);
+  function render(){
+    if(state.tab==='ranks')renderRanks();
+    else if(state.tab==='terms')renderTerms();
+    else if(state.tab==='community')renderCommunity();
+    else if(state.tab==='minigame')renderMiniGame();
+    else renderHome();
+  }
+  render();
 </script>
 </body>
 </html>

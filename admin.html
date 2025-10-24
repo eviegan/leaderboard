@@ -3,287 +3,95 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<title>Leaderboard Admin</title>
+<title>Leaderboard Admin (Multi-tenant)</title>
 <link rel="preconnect" href="https://www.gstatic.com" />
 <style>
-  :root{--bg:#0f1129;--card:#141735;--ring:#ffffff24;--ink:#eaf2ff;--muted:#a9b7d8;--g1:#ff6ec4;--g2:#7873f5}
-  *{box-sizing:border-box} body{margin:0;background:linear-gradient(#0f1129,#0a0b1f);color:var(--ink);font-family:Inter,system-ui,Segoe UI,Roboto,Arial}
-  .wrap{max-width:1100px;margin:0 auto;padding:24px}
-  h1{margin:0 0 10px}
-  .card{background:var(--card);border:1px solid var(--ring);border-radius:16px;padding:16px;box-shadow:0 0 30px #00000044;margin:14px 0}
-  input,select,button,textarea{padding:12px 14px;border-radius:12px;border:1px solid var(--ring);background:#0e1130;color:var(--ink)}
-  button{cursor:pointer;background:linear-gradient(45deg,var(--g1),var(--g2));border:0}
-  .row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
-  .row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-  table{width:100%;border-collapse:separate;border-spacing:0}
-  th,td{padding:12px;border-bottom:1px solid #ffffff15}
-  th{text-align:left;color:#cfd0ff}
-  .pill{padding:6px 10px;border-radius:999px;background:#ffffff10;border:1px solid #ffffff22}
-  .right{display:flex;gap:8px;justify-content:flex-end}
+:root{--bg:#0f1129;--card:#141735;--ring:#ffffff24;--ink:#eaf2ff;--muted:#a9b7d8;--g1:#ff6ec4;--g2:#7873f5}
+*{box-sizing:border-box} body{margin:0;background:linear-gradient(#0f1129,#0a0b1f);color:var(--ink);font-family:Inter,system-ui,Segoe UI,Roboto,Arial}
+.wrap{max-width:1100px;margin:0 auto;padding:24px}
+h1{margin:0 0 10px}
+.card{background:var(--card);border:1px solid var(--ring);border-radius:16px;padding:16px;box-shadow:0 0 30px #00000044;margin:14px 0}
+input,select,button{padding:12px 14px;border-radius:12px;border:1px solid var(--ring);background:#0e1130;color:var(--ink)}
+button{cursor:pointer;background:linear-gradient(45deg,var(--g1),var(--g2));border:0}
+.row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+table{width:100%;border-collapse:separate;border-spacing:0}
+th,td{padding:12px;border-bottom:1px solid #ffffff15}
+th{text-align:left;color:#cfd0ff}
+.pill{padding:6px 10px;border-radius:999px;background:#ffffff10;border:1px solid #ffffff22}
+.right{display:flex;gap:8px;justify-content:flex-end}
+.hint{opacity:.8;font-size:12px}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <h1>Leaderboard Admin</h1>
-  <div class="card" id="authCard">
-    <div class="row2">
-      <input id="email" type="email" placeholder="Admin email" />
-      <input id="password" type="password" placeholder="Password" />
-    </div>
-    <div class="right" style="margin-top:12px">
-      <button id="loginBtn">Log In</button>
-      <button id="logoutBtn" style="display:none;background:#ffffff14">Log Out</button>
-    </div>
-    <p id="who" class="pill" style="margin-top:10px;display:none"></p>
-  </div>
+<h1>Leaderboard Admin</h1>
 
-  <div class="card" id="boardCard" style="display:none">
-    <div class="row2">
-      <input id="boardId" placeholder="Board ID (e.g. weekend-oct24)" />
-      <button id="useBoardBtn">Use Board</button>
-    </div>
-    <p class="pill" id="activeBoardPill" style="margin-top:10px"></p>
-  </div>
 
-  <div class="card" id="editorCard" style="display:none">
-    <h3>Add / Update Entry</h3>
-    <div class="row">
-      <input id="username" placeholder="Username (Rico.bet)" />
-      <input id="group" placeholder="Group (optional)" />
-      <input id="score" type="number" placeholder="Score / Turnover" />
-      <button id="saveBtn">Save</button>
-    </div>
-    <p style="opacity:.8;margin-top:8px">Entries are upserted by <em>username</em> within the selected board.</p>
-  </div>
-
-  <div class="card" id="csvCard" style="display:none">
-    <h3>Bulk Upload (CSV)</h3>
-    <div class="row2">
-      <input id="csvFile" type="file" accept=".csv" />
-      <button id="uploadCsvBtn">Upload CSV</button>
-    </div>
-    <p class="pill" style="margin-top:10px">Expected headers: <code>username,score,group</code></p>
-  </div>
-
-  <div class="card" id="tableCard" style="display:none">
-    <div class="row2">
-      <input id="search" placeholder="Search username…" />
-      <select id="groupFilter"><option value="">All groups</option></select>
-    </div>
-    <table style="margin-top:12px">
-      <thead><tr><th>#</th><th>Username</th><th>Group</th><th>Score</th><th style="width:180px">Actions</th></tr></thead>
-      <tbody id="rows"></tbody>
-    </table>
-  </div>
+<!-- Auth -->
+<div class="card" id="authCard">
+<div class="row2">
+<input id="email" type="email" placeholder="Admin email" />
+<input id="password" type="password" placeholder="Password" />
+</div>
+<div class="right" style="margin-top:12px">
+<button id="loginBtn">Log In</button>
+<button id="logoutBtn" style="display:none;background:#ffffff14">Log Out</button>
+</div>
+<p id="who" class="pill" style="margin-top:10px;display:none"></p>
+<p class="hint">Each login is its own tenant. Your <b>tenantId</b> is your <code>uid</code>.</p>
 </div>
 
-<script type="module">
-  // --- CONFIG: paste your Firebase config and admin UIDs ---
-  const FIREBASE_CONFIG = {
-    apiKey: "PASTE_ME",
-    authDomain: "PASTE_ME.firebaseapp.com",
-    projectId: "PASTE_ME",
-    storageBucket: "PASTE_ME.appspot.com",
-    messagingSenderId: "PASTE_ME",
-    appId: "PASTE_ME"
-  };
-  // UIDs of allowed admins (fill after your first login)
-  const ADMIN_UIDS = ["YOUR_UID_HERE"];
 
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-  import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-  import { getFirestore, collection, doc, setDoc, getDocs, deleteDoc, query, orderBy, limit, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-  // PapaParse for CSV
-  import "https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js";
+<!-- Choose board -->
+<div class="card" id="boardCard" style="display:none">
+<div class="row2">
+<input id="boardId" placeholder="Board ID (e.g. referral-oct)" />
+<button id="useBoardBtn">Use Board</button>
+</div>
+<p class="pill" id="activeBoardPill" style="margin-top:10px"></p>
+</div>
 
-  const app = initializeApp(FIREBASE_CONFIG);
-  const auth = getAuth(app);
-  const db   = getFirestore(app);
 
-  const emailEl = document.getElementById("email");
-  const passEl  = document.getElementById("password");
-  const loginBtn = document.getElementById("loginBtn");
-  const logoutBtn= document.getElementById("logoutBtn");
-  const whoEl   = document.getElementById("who");
-  const authCard= document.getElementById("authCard");
+<!-- Upsert entry -->
+<div class="card" id="editorCard" style="display:none">
+<h3>Add / Update Entry</h3>
+<div class="row">
+<input id="username" placeholder="Username" />
+<input id="points" type="number" placeholder="Points / Turnover" />
+<input id="week" placeholder="Week (e.g. Week 1)" />
+<input id="avatar" placeholder="Avatar URL (optional)" />
+</div>
+<div class="right" style="margin-top:12px">
+<button id="saveBtn">Save</button>
+</div>
+<p class="hint">Entries are <b>upserted by username</b> within the selected board + week.</p>
+</div>
 
-  const boardCard = document.getElementById("boardCard");
-  const boardIdEl = document.getElementById("boardId");
-  const useBoardBtn = document.getElementById("useBoardBtn");
-  const activeBoardPill = document.getElementById("activeBoardPill");
 
-  const editorCard = document.getElementById("editorCard");
-  const usernameEl = document.getElementById("username");
-  const groupEl    = document.getElementById("group");
-  const scoreEl    = document.getElementById("score");
-  const saveBtn    = document.getElementById("saveBtn");
+<!-- CSV upload -->
+<div class="card" id="csvCard" style="display:none">
+<h3>Bulk Upload (CSV)</h3>
+<div class="row2">
+<input id="csvFile" type="file" accept=".csv" />
+<button id="uploadCsvBtn">Upload CSV</button>
+</div>
+<p class="pill" style="margin-top:10px">Headers: <code>username,points,week,avatar</code></p>
+</div>
 
-  const csvCard = document.getElementById("csvCard");
-  const csvFile = document.getElementById("csvFile");
-  const uploadCsvBtn = document.getElementById("uploadCsvBtn");
 
-  const tableCard = document.getElementById("tableCard");
-  const rowsEl    = document.getElementById("rows");
-  const searchEl  = document.getElementById("search");
-  const groupFilter = document.getElementById("groupFilter");
+<!-- Table -->
+<div class="card" id="tableCard" style="display:none">
+<div class="row2">
+<input id="search" placeholder="Search username…" />
+<select id="weekFilter"><option value="">All weeks</option></select>
+</div>
+<table style="margin-top:12px">
+<thead><tr><th>#</th><th>Username</th><th>Week</th><th>Points</th><th>Avatar</th><th style="width:200px">Actions</th></tr></thead>
+<tbody id="rows"></tbody>
+</table>
+</div>
+</div>
 
-  let currentUser = null;
-  let boardId = "current";
-  let cache = [];
 
-  function isAdmin(uid){ return ADMIN_UIDS.includes(uid); }
-
-  loginBtn.onclick = async () => {
-    const email = emailEl.value.trim();
-    const pass  = passEl.value.trim();
-    if(!email || !pass) return alert("Enter email & password");
-    try{
-      await signInWithEmailAndPassword(auth, email, pass);
-    }catch(e){ alert("Login failed: " + e.message); }
-  };
-
-  logoutBtn.onclick = () => signOut(auth);
-
-  onAuthStateChanged(auth, async (user) => {
-    currentUser = user || null;
-    if(!user){
-      whoEl.style.display = "none";
-      logoutBtn.style.display = "none";
-      boardCard.style.display = "none";
-      editorCard.style.display = "none";
-      csvCard.style.display = "none";
-      tableCard.style.display = "none";
-      return;
-    }
-    whoEl.textContent = `Logged in as ${user.email} (uid: ${user.uid})`;
-    whoEl.style.display = "inline-block";
-    logoutBtn.style.display = "inline-block";
-
-    // Require admin
-    if(!isAdmin(user.uid)){
-      alert("Your account is not whitelisted to write. Ask the owner to add your UID to ADMIN_UIDS and update Firestore rules.");
-      return;
-    }
-    boardCard.style.display = "block";
-    editorCard.style.display = "block";
-    csvCard.style.display    = "block";
-    tableCard.style.display  = "block";
-
-    await loadTable();
-  });
-
-  useBoardBtn.onclick = async () => {
-    boardId = (boardIdEl.value.trim() || "current");
-    activeBoardPill.textContent = "Active board: " + boardId;
-    await loadTable();
-  };
-
-  async function loadTable(){
-    activeBoardPill.textContent = "Active board: " + boardId;
-
-    const entriesCol = collection(db, "leaderboards", boardId, "entries");
-    const qTop = query(entriesCol, orderBy("score","desc"), limit(1000));
-    const snap = await getDocs(qTop);
-    cache = snap.docs.map(d => ({ id:d.id, ...d.data() }));
-
-    // populate group filter
-    const groups = Array.from(new Set(cache.map(x => x.group).filter(Boolean))).sort();
-    groupFilter.innerHTML = '<option value="">All groups</option>' + groups.map(g => `<option>${g}</option>`).join("");
-
-    renderTable();
-  }
-
-  function renderTable(){
-    const term = (searchEl.value || "").toLowerCase();
-    const grp  = groupFilter.value;
-
-    let list = cache.slice();
-    if(grp) list = list.filter(x => x.group === grp);
-    if(term) list = list.filter(x => (x.username_lc||x.username?.toLowerCase()).includes(term));
-
-    rowsEl.innerHTML = list.map((x,i) => `
-      <tr>
-        <td>${i+1}</td>
-        <td>${x.username}</td>
-        <td>${x.group || "-"}</td>
-        <td>${x.score ?? 0}</td>
-        <td>
-          <button data-edit="${x.username}">Edit</button>
-          <button data-del="${x.username}" style="background:#ff6b6b;border:0">Delete</button>
-        </td>
-      </tr>
-    `).join("");
-    rowsEl.querySelectorAll("button[data-edit]").forEach(b => b.onclick = () => {
-      const u = b.getAttribute("data-edit");
-      const item = cache.find(z => z.username === u);
-      if(item){
-        usernameEl.value = item.username;
-        groupEl.value    = item.group || "";
-        scoreEl.value    = item.score ?? 0;
-        window.scrollTo({top:0,behavior:"smooth"});
-      }
-    });
-    rowsEl.querySelectorAll("button[data-del]").forEach(b => b.onclick = async () => {
-      const u = b.getAttribute("data-del");
-      if(confirm("Delete " + u + "?")){
-        const ref = doc(db, "leaderboards", boardId, "entries", u);
-        await deleteDoc(ref);
-        await loadTable();
-      }
-    });
-  }
-
-  searchEl.addEventListener("input", renderTable);
-  groupFilter.addEventListener("change", renderTable);
-
-  saveBtn.onclick = async () => {
-    if(!currentUser || !isAdmin(currentUser.uid)) return alert("Not allowed");
-    const username = usernameEl.value.trim();
-    const group    = groupEl.value.trim();
-    const score    = Number(scoreEl.value || 0);
-
-    if(!username) return alert("Username required");
-
-    const data = {
-      username,
-      username_lc: username.toLowerCase(),
-      group: group || null,
-      score,
-      updatedAt: serverTimestamp()
-    };
-    const ref = doc(db, "leaderboards", boardId, "entries", username);
-    await setDoc(ref, data, { merge:true });
-    usernameEl.value = ""; groupEl.value = ""; scoreEl.value = "";
-    await loadTable();
-  };
-
-  uploadCsvBtn.onclick = async () => {
-    if(!csvFile.files.length) return alert("Choose a CSV file first");
-    const file = csvFile.files[0];
-    Papa.parse(file, {
-      header: true,
-      skipEmptyLines: true,
-      complete: async (results) => {
-        const rows = results.data;
-        for(const r of rows){
-          const username = (r.username||"").trim();
-          if(!username) continue;
-          const group = (r.group||"").trim();
-          const score = Number(r.score||0);
-          const ref = doc(db, "leaderboards", boardId, "entries", username);
-          await setDoc(ref, {
-            username,
-            username_lc: username.toLowerCase(),
-            group: group || null,
-            score,
-            updatedAt: serverTimestamp()
-          }, { merge:true });
-        }
-        alert("CSV uploaded: " + rows.length + " rows");
-        await loadTable();
-      }
-    });
-  };
-</script>
-</body>
 </html>

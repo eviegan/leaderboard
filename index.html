@@ -17,19 +17,16 @@
     -webkit-tap-highlight-color:transparent}
   .app{max-width:520px;margin:0 auto;min-height:100dvh;display:grid;grid-template-rows:auto 1fr;overflow-x:hidden}
 
-  /* Header */
   header{position:sticky;top:0;background:linear-gradient(180deg,#10112a,#0d0e23);border-bottom:1px solid var(--edge);padding:12px 16px;z-index:20}
   .hrow{display:flex;align-items:center;justify-content:space-between}
   .title{font-weight:900;font-size:18px;letter-spacing:.4px}
 
-  /* Content */
-  main{padding:14px 14px 116px} /* extra space for fixed tab bar */
+  main{padding:14px 14px 116px}
   .card{background:linear-gradient(180deg,#151533,#10112a);border:1px solid var(--edge);border-radius:16px;padding:14px;margin-bottom:12px}
   h2{margin:0 0 8px;font-size:18px}
   h3{margin:0 0 8px;font-size:16px}
   p{margin:0 0 8px;color:#dfe5ff}
 
-  /* ====== RANKING (namespaced .rr) ====== */
   .rr{--ink:#2b2350; --gold:#ffcf5a; --silver:#dbe6ff; --bronze:#ffd9b3; width:100%}
   .rr .controls{display:flex;align-items:center;gap:8px}
   .rr .select,.rr .wbtn{appearance:none;border:0;border-radius:10px;padding:9px 10px;font-weight:800}
@@ -56,7 +53,6 @@
 
   .rr .av{position:absolute;top:-64px;left:50%;transform:translateX(-50%);width:76px;height:76px;border-radius:50%;
     border:4px solid #fff;box-shadow:0 10px 22px rgba(0,0,0,.25);background:#fff center/cover no-repeat}
-  .rr .tiara{position:absolute;top:-86px;left:50%;transform:translateX(-50%);width:46px;height:30px;pointer-events:none}
   .rr .name{margin-top:14px;font-weight:900;color:#32245c;max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .rr .scoreMini{color:#6b5d9c;font-size:12px;margin-top:2px}
 
@@ -76,7 +72,6 @@
   .rr .go:active{transform:translateY(1px);box-shadow:0 2px 0 rgba(0,0,0,.12)}
   .rr .result{margin-top:8px;background:rgba(255,255,255,.92);border:1px solid rgba(0,0,0,.08);color:#2b2350;border-radius:12px;padding:10px 12px;font-weight:700;display:none}
 
-  /* === Icon Bottom Nav — fixed (5 items now) === */
   .iconnav{
     position: fixed; left: 50%; transform: translateX(-50%);
     bottom: max(8px, env(safe-area-inset-bottom));
@@ -94,18 +89,16 @@
   .iconnav .itab.active .ico{transform:translateY(-2px) scale(1.06)}
   .iconnav .itab.active,.iconnav .itab:focus-visible{color:#fff}
   .iconnav .inkbar{position:absolute;bottom:10px;height:44px;z-index:0;pointer-events:none;left:12px;right:12px;
-    width: calc((100% - 24px - 8px*4)/5); /* 5 items */
+    width: calc((100% - 24px - 8px*4)/5);
     border-radius:16px;background:radial-gradient(90% 140% at 10% 0%,var(--hot) 0%,var(--hot2) 60%,#ffcabf 100%);
     box-shadow:0 12px 26px rgba(255,79,216,.35), inset 0 -2px 6px rgba(0,0,0,.18);
     transform:translateX(calc(var(--ix) * (100% + 8px)));
     transition:transform .28s cubic-bezier(.22,.9,.24,1), width .15s ease}
 
-  /* FAQ */
   details{background:#14143a;border:1px solid var(--edge);border-radius:12px;padding:10px}
   details+details{margin-top:8px}
   summary{cursor:pointer;font-weight:800}
 
-  /* Community */
   .socialCard{background: radial-gradient(120% 140% at 0% 0%, #5d2fff 0%, #4c22d8 35%, #3b1dbb 70%);border:1px solid rgba(255,255,255,.18);border-radius:20px;padding:12px;box-shadow:0 20px 50px rgba(0,0,0,.35)}
   .socialItem{display:grid;grid-template-columns:1fr auto;align-items:center;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);border-radius:14px;padding:10px 12px}
   .socialItem + .socialItem{margin-top:10px}
@@ -115,14 +108,12 @@
   .subBtn{appearance:none;border:0;padding:9px 14px;border-radius:10px;background:#fff;color:#222;font-weight:900;cursor:pointer;box-shadow:0 4px 0 rgba(0,0,0,.12)}
   .subBtn:active{transform:translateY(1px);box-shadow:0 2px 0 rgba(0,0,0,.12)}
 
-  /* Sound toggle */
   .soundBtn{position:fixed;right:12px;bottom:calc(72px + env(safe-area-inset-bottom,0));background:rgba(255,255,255,.95);color:#111;border:1px solid rgba(0,0,0,.08);border-radius:14px;padding:10px 12px;display:none;gap:8px;align-items:center;font-weight:900;z-index:1100;box-shadow:0 10px 24px rgba(0,0,0,.25)}
   .soundBtn.show{display:inline-flex}
   .soundBtn.active{background:linear-gradient(90deg,#ffd86a,#ffc24d)}
   .soundBtn .ic{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-  @media (min-width:560px){.soundBtn{bottom:calc(92px + env(safe-area-inset-bottom,0))}}
-
-  /* ===== Mini Game ===== */
+  @media (min-width:560px){.soundBtn{bottom:calc(92px + env(safe-area-inset-bottom,0))}
+  }
   .mg-tabs{display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap}
   .mg-tabs button{appearance:none;border:1px solid var(--edge);background:#15153a;color:#eaf0ff;border-radius:12px;padding:10px 12px;font-weight:900;cursor:pointer}
   .mg-tabs button.active{background:linear-gradient(180deg,var(--p2),var(--p1));box-shadow:0 6px 18px var(--glow)}
@@ -147,7 +138,6 @@
   <main id="view"></main>
 </div>
 
-<!-- Bottom Nav (5 tabs: Home, Ranks, T&C, Community, Mini Game) -->
 <nav class="iconnav" aria-label="Primary">
   <div class="inkbar" aria-hidden="true"></div>
   <button type="button" class="itab active" data-tab="home" data-idx="0" aria-label="Home">
@@ -172,7 +162,6 @@
   </button>
 </nav>
 
-<!-- Background Music -->
 <audio id="bgm" src="theme.mp3" preload="auto" loop playsinline autoplay></audio>
 <button id="soundBtn" class="soundBtn" aria-label="Toggle sound" title="Sound">
   <svg viewBox="0 0 24 24" class="ic"><path d="M4 10h4l5-4v12l-5-4H4zM17 8a5 5 0 010 8"/></svg>
@@ -180,7 +169,6 @@
 </button>
 
 <script>
-/* ======= Helpers (keep) ======= */
 function $(s,el){return (el||document).querySelector(s)}
 function $all(s,el){return [].slice.call((el||document).querySelectorAll(s))}
 function fmt(n){n=Number(n||0);if(n>=1000)return (Math.round(n/100)/10).toLocaleString()+"K";return n.toLocaleString()}
@@ -189,11 +177,9 @@ function faceBg(url){return url?'url("'+url+'")':'url("data:image/svg+xml;utf8,'
 function svgAvatar(){return "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0%' stop-color='%23a0c4ff'/><stop offset='100%' stop-color='%238f6bff'/></linearGradient></defs><rect width='64' height='64' rx='16' fill='url(%23g)'/><circle cx='32' cy='26' r='12' fill='white' opacity='.9'/><rect x='14' y='40' width='36' height='16' rx='8' fill='white' opacity='.9'/></svg>"}
 function getParam(k){var m=location.search.match(new RegExp("[?&]"+k+"=([^&]+)","i"));return m?decodeURIComponent(m[1]):null}
 
-/* App State */
 let state={tab:'home'}; let ALL=[],WEEKS=[],CUR_WEEK='',TOP100=[];
 function moveInk(ix){ document.querySelector('.iconnav').style.setProperty('--ix', ix); }
 
-/* Render Router */
 function render(){
   $('#hdrTitle').textContent = state.tab==='ranks' ? 'Referral Ranking' :
                                state.tab==='terms' ? 'Terms & FAQ' :
@@ -209,8 +195,9 @@ function render(){
   else renderHome();
 }
 
-/* Home */
 function renderHome(){
+  const tenant = getParam('tenant'), board = getParam('board');
+  const help = (!tenant||!board) ? `<div class="card" style="border-color:#ff9">${!tenant||!board?`<b>Tip:</b> Open with <code>?tenant=&lt;UID&gt;&amp;board=&lt;boardId&gt;</code>`:''}</div>` : '';
   $('#view').innerHTML = `
     <div class="card">
       <h2>Referral Race</h2>
@@ -220,60 +207,48 @@ function renderHome(){
         <li>Every verified signup = <b>+1 point</b>.</li>
         <li><b>Weekly</b> leaderboard resets every Monday.</li>
       </ul>
-    </div>`;
+    </div>${help}`;
 }
 </script>
 
-<!-- ===== Replace Sheets with Firestore (multi-tenant) ===== -->
+<!-- Firestore loader (reads leaderboard) -->
 <script type="module">
-  // 1) PASTE YOUR FIREBASE CONFIG
-const firebaseConfig = {
-  apiKey: "AIzaSyABCZr2auIlT3ipJBGLJpHJi_CsQNQ0RQc",
-  authDomain: "referral-race.firebaseapp.com",
-  projectId: "referral-race",
-  storageBucket: "referral-race.firebasestorage.app",
-  messagingSenderId: "866066081377",
-  appId: "1:866066081377:web:c5945830784f19e9af2c20"
-};
+  // 1) YOUR FIREBASE CONFIG (from your console)
+  const firebaseConfig = {
+    apiKey: "AIzaSyABCZr2auIlT3ipJBGLJpHJi_CsQNQ0RQc",
+    authDomain: "referral-race.firebaseapp.com",
+    projectId: "referral-race",
+    storageBucket: "referral-race.firebasestorage.app",
+    messagingSenderId: "866066081377",
+    appId: "1:866066081377:web:c5945830784f19e9af2c20"
+  };
 
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
   import { getFirestore, collection, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-  
-const app = initializeApp(firebaseConfig);
-
+  const app = initializeApp(firebaseConfig);
   const db  = getFirestore(app);
 
-  // Expose to the page scope:
-  window._fire = { db };
-
-  // Loader used by renderRanks()
+  // Load rows for the current tenant/board
   async function fsLoadAll(){
-    const tenant = getParam('tenant') || 'DEMO_TENANT_ID';
-    const board  = getParam('board')  || 'current';
-    const col    = collection(db, 'tenants', tenant, 'leaderboards', board, 'entries');
-    // order for stable ranks
-    const snap   = await getDocs(query(col, orderBy('points','desc')));
+    const tenant = getParam('tenant');
+    const board  = getParam('board') || 'current';
+    if(!tenant) throw new Error('Missing ?tenant=<uid>');
+    const col = collection(db, 'tenants', tenant, 'leaderboards', board, 'entries');
+    const snap = await getDocs(query(col, orderBy('points','desc')));
     return snap.docs.map(d=>{
-      const x = d.data();
-      return {
-        username: x.username || d.id,
-        points: Number(x.points || 0),
-        week: String(x.week || ''),
-        avatar: x.avatar || ''
-      };
+      const x=d.data(); return {username:x.username||d.id, points:Number(x.points||0), week:String(x.week||''), avatar:x.avatar||''};
     });
   }
 
-  // Shim to keep your existing renderRanks() flow
-  window.fetchGViz = async function(){ const arr = await fsLoadAll();
+  // Expose a function used by renderRanks()
+  window.fetchGViz = async function(){
+    const arr = await fsLoadAll();
     return { headers:['username','points','week','avatar'], rows: arr.map(x=>[x.username,x.points,x.week,x.avatar]) };
   };
-  window.normalize = function(){ return window.ALL = window.ALL && window.ALL.length ? window.ALL : []; }; // not used now
 </script>
 
 <script>
-/* Ranks */
 async function renderRanks(){
   $('#view').innerHTML = `
   <div class="rr">
@@ -298,62 +273,37 @@ async function renderRanks(){
     <div id="rr-mine" class="result"></div>
   </div>`;
 
-  // Load from Firestore
   try{
-    const res = await fetchGViz(); // provided by FS module
-    // normalize into ALL[]
-    window.ALL = (res.rows || []).map(r => ({ username:String(r[0]||'').trim(), points:Number(r[1]||0), week:String(r[2]||''), avatar:String(r[3]||'') }));
+    const res = await window.fetchGViz();
+    window.ALL = (res.rows||[]).map(r=>({username:String(r[0]||'').trim(),points:Number(r[1]||0),week:String(r[2]||''),avatar:String(r[3]||'')}));
   }catch(err){
-    console.warn('Firestore read failed, demo data used:', err);
-    let demo=[]; function seed(week,arr){ arr.forEach(x=>{ x.week=week; demo.push(x); }); }
-    seed('Week 1',[{username:'evelin0510',points:1000000},{username:'송도르',points:502000},{username:'Gumiya',points:391200},{username:'Deathaura',points:282700},
-      {username:'Player1063389294',points:200000},{username:'薇樂莉Jo',points:140000},{username:'talia bentley',points:130200},
-      {username:'U8',points:120000},{username:'U9',points:118000},{username:'U10',points:110000},{username:'U11',points:108000},{username:'U12',points:104000},
-      {username:'U13',points:101000},{username:'U14',points:98000},{username:'U15',points:96000},{username:'U16',points:92000},{username:'U17',points:90000},{username:'U18',points:88000},{username:'U19',points:86000},{username:'U20',points:84000}
-    ]);
-    seed('Week 2', demo.slice(0,20).map(x=>({username:x.username,points:Math.round(x.points*0.92)})));
-    seed('Week 3', demo.slice(0,20).map(x=>({username:x.username,points:Math.round(x.points*1.05)})));
-    window.ALL = demo;
+    $('#view').innerHTML = `<div class="card"><h2>Ranks</h2><p>Couldn’t load leaderboard. ${esc(err.message||err)}</p><p class="tip">Make sure you opened the link with <code>?tenant=&lt;UID&gt;&amp;board=&lt;boardId&gt;</code> and data exists.</p></div>`;
+    return;
   }
 
-  buildWeeks(); fillWeekUI();
+  let set={}, list=[];
+  ALL.forEach(x=>{ if(x.week) set[x.week]=true; });
+  for(const k in set) list.push(k);
+  list.sort((a,b)=>{ const na=(a.match(/\d+/)||[])[0], nb=(b.match(/\d+/)||[])[0]; if(na&&nb) return na-nb; return a.localeCompare(b); });
+  WEEKS=list; CUR_WEEK = (WEEKS[WEEKS.length-1]||'');
 
-  function buildWeeks(){
-    let set={}, list=[];
-    ALL.forEach(x=>{ if(x.week) set[x.week]=true; });
-    for(const k in set) list.push(k);
-    list.sort((a,b)=>{ const na=(a.match(/\d+/)||[])[0], nb=(b.match(/\d+/)||[])[0]; if(na&&nb) return na-nb; return a.localeCompare(b); });
-    WEEKS=list; CUR_WEEK = (WEEKS[WEEKS.length-1]||'');
-  }
-
-  function fillWeekUI(){
-    const sel = $('#weekSel'); sel.innerHTML='';
-    WEEKS.forEach(w=>{ const o=document.createElement('option'); o.value=w; o.textContent=w; sel.appendChild(o); });
-    sel.value=CUR_WEEK; renderWeek();
-
-    $('#rr-find').onclick = findUser;
-    $('#rr-q').addEventListener('keydown',e=>{ if(e.key==='Enter') findUser(); });
-    $('#weekSel').onchange = function(){ CUR_WEEK=this.value; renderWeek(); };
-    $('#prevBtn').onclick = function(){ const i=WEEKS.indexOf(CUR_WEEK); if(i>0){ CUR_WEEK=WEEKS[i-1]; sel.value=CUR_WEEK; renderWeek(); } };
-    $('#nextBtn').onclick = function(){ const i=WEEKS.indexOf(CUR_WEEK); if(i<WEEKS.length-1){ CUR_WEEK=WEEKS[i+1]; sel.value=CUR_WEEK; renderWeek(); } };
-  }
+  const sel = $('#weekSel'); sel.innerHTML='';
+  WEEKS.forEach(w=>{ const o=document.createElement('option'); o.value=w; o.textContent=w; sel.appendChild(o); });
+  sel.value=CUR_WEEK;
 
   function byWeek(week){
     const arr = ALL.filter(x=>x.week===week).sort((a,b)=>b.points-a.points);
     arr.forEach((x,i)=>{ if(x.rank==null) x.rank=i+1; });
     return arr;
   }
-
   function setPod(id,row){
     $('#rr-p'+id+'a').style.backgroundImage = faceBg(row?row.avatar:'');
     $('#rr-p'+id+'n').textContent = row?row.username:'—';
     $('#rr-p'+id+'s').textContent = row? (fmt(row.points)+' pts') : '';
   }
-
   function renderWeek(){
     const items = byWeek(CUR_WEEK);
     setPod(1,items[0]||null); setPod(2,items[1]||null); setPod(3,items[2]||null);
-
     const list = $('#rr-list'); list.innerHTML='';
     items.slice(3,15).forEach(r=>{
       const row=document.createElement('div'); row.className='row';
@@ -362,10 +312,8 @@ async function renderRanks(){
         '<div class="val">'+fmt(r.points)+'</div>';
       list.appendChild(row);
     });
-
     TOP100 = items.slice(0,100);
   }
-
   function findUser(){
     const q = ($('#rr-q').value||'').trim().toLowerCase();
     const res = $('#rr-mine');
@@ -375,9 +323,16 @@ async function renderRanks(){
     res.style.display='block';
     res.innerHTML = '<b>'+esc(hit.username)+'</b> — Rank <b>'+hit.rank+'</b> • '+fmt(hit.points)+' pts • '+esc(hit.week);
   }
+
+  $('#weekSel').onchange = function(){ CUR_WEEK=this.value; renderWeek(); };
+  $('#prevBtn').onclick = function(){ const i=WEEKS.indexOf(CUR_WEEK); if(i>0){ CUR_WEEK=WEEKS[i-1]; $('#weekSel').value=CUR_WEEK; renderWeek(); } };
+  $('#nextBtn').onclick = function(){ const i=WEEKS.indexOf(CUR_WEEK); if(i<WEEKS.length-1){ CUR_WEEK=WEEKS[i+1]; $('#weekSel').value=CUR_WEEK; renderWeek(); } };
+  $('#rr-find').onclick = findUser;
+  $('#rr-q').addEventListener('keydown',e=>{ if(e.key==='Enter') findUser(); });
+
+  renderWeek();
 }
 
-/* Terms */
 function renderTerms(){
   $('#view').innerHTML = `
   <div class="card"><h2>Terms & Conditions</h2><p>By joining the Referral Race, you agree to the rules below.</p></div>
@@ -389,7 +344,6 @@ function renderTerms(){
   </div>`;
 }
 
-/* Community */
 function renderCommunity(){
   const socials=[
     {name:'Facebook',  url:'https://facebook.com/yourbrand',  icon:'facebook'},
@@ -410,7 +364,6 @@ function renderCommunity(){
   $('#view').innerHTML = `<div class="card"><h2>Share & Follow</h2><p>Invite friends and follow us.</p></div><div class="socialCard">${rows}</div>`;
 }
 
-/* ===== Mini Game Tab ===== */
 function renderMiniGame(){
   $('#view').innerHTML = `
     <div class="card"><h2>Mini Game</h2>
@@ -437,11 +390,10 @@ function renderMiniGame(){
   `;
   const canvas = $('#mgCanvas'), ctx = canvas.getContext('2d');
   const title = $('#mgTitle'), tip = $('#mgTip');
-  let game='flappy', RAF=null, running=false;
+  let game='flappy', RAF=null, cleanup=null;
   function setCanvasSize(){ const w = canvas.clientWidth; canvas.width = Math.round(w); canvas.height = 340; }
   setCanvasSize(); addEventListener('resize', setCanvasSize);
 
-  // Switcher
   $all('.mg-t').forEach(b=>b.onclick=()=>{
     $all('.mg-t').forEach(x=>x.classList.remove('active'));
     b.classList.add('active'); game=b.dataset.game;
@@ -454,177 +406,75 @@ function renderMiniGame(){
   $('#mgStart').onclick=()=> startGame();
   $('#mgStop').onclick=()=> stopGame();
 
-  /* --- 1) Flappy Spin --- */
   function runFlappy(){
     const w=canvas.width, h=canvas.height;
     let bird={x:w*0.28,y:h*0.45,r:12,vy:0};
     let pipes=[], gap=110, t=0, gravity=0.45, jump=-6.5, alive=true;
-
-    function spawn(){
-      const top=40+Math.random()*(h-gap-80);
-      pipes.push({x:w+20, top:top, bot:top+gap, w:38});
-    }
+    function spawn(){ const top=40+Math.random()*(h-gap-80); pipes.push({x:w+20, top:top, bot:top+gap, w:38}); }
     function flap(){ if(!alive) return; bird.vy=jump; }
     canvas.onclick=flap; window.onkeydown=(e)=>{ if(e.code==='Space') flap(); };
-
-    function drawChip(x,y,r){
-      ctx.save(); ctx.translate(x,y); ctx.rotate(((t+x)*0.01)%Math.PI*2);
-      ctx.fillStyle='#ffd86a'; ctx.beginPath(); ctx.arc(0,0,r,0,Math.PI*2); ctx.fill();
-      ctx.fillStyle='#5a3b00'; ctx.font='bold 12px Inter, sans-serif'; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillText('¢',0,0);
-      ctx.restore();
-    }
+    function drawChip(x,y,r){ ctx.save(); ctx.translate(x,y); ctx.rotate(((t+x)*0.01)%Math.PI*2); ctx.fillStyle='#ffd86a'; ctx.beginPath(); ctx.arc(0,0,r,0,Math.PI*2); ctx.fill(); ctx.fillStyle='#5a3b00'; ctx.font='bold 12px Inter, sans-serif'; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillText('¢',0,0); ctx.restore(); }
     function loop(){
-      RAF=requestAnimationFrame(loop); t++;
-      ctx.clearRect(0,0,w,h);
-      ctx.fillStyle='#081025'; ctx.fillRect(0,0,w,h);
+      RAF=requestAnimationFrame(loop); t++; ctx.clearRect(0,0,w,h); ctx.fillStyle='#081025'; ctx.fillRect(0,0,w,h);
       if(t%90===0) spawn();
-      for(let i=pipes.length-1;i>=0;i--){
-        const p=pipes[i]; p.x-=2.2;
-        ctx.fillStyle='#1b2b66';
-        ctx.fillRect(p.x,0,p.w,p.top);
-        ctx.fillRect(p.x,p.bot,p.w,h-p.bot);
-        drawChip(p.x+p.w/2,p.top-18,10);
-        drawChip(p.x+p.w/2,p.bot+18,10);
-        if(p.x+p.w<0) pipes.splice(i,1);
-        if(bird.x>p.x-bird.r && bird.x<p.x+p.w+bird.r){
-          if(bird.y-bird.r<p.top || bird.y+bird.r>p.bot) alive=false;
-        }
-      }
-      bird.vy+=gravity; bird.y+=bird.vy;
-      ctx.fillStyle='#7fe3ff'; ctx.beginPath(); ctx.arc(bird.x,bird.y,bird.r,0,Math.PI*2); ctx.fill();
-      ctx.fillStyle='#ffd86a'; ctx.fillRect(bird.x-10,bird.y-bird.r-10,20,6);
+      for(let i=pipes.length-1;i>=0;i--){ const p=pipes[i]; p.x-=2.2; ctx.fillStyle='#1b2b66'; ctx.fillRect(p.x,0,p.w,p.top); ctx.fillRect(p.x,p.bot,p.w,h-p.bot); drawChip(p.x+p.w/2,p.top-18,10); drawChip(p.x+p.w/2,p.bot+18,10); if(p.x+p.w<0) pipes.splice(i,1); if(bird.x>p.x-bird.r && bird.x<p.x+p.w+bird.r){ if(bird.y-bird.r<p.top || bird.y+bird.r>p.bot) alive=false; } }
+      bird.vy+=gravity; bird.y+=bird.vy; ctx.fillStyle='#7fe3ff'; ctx.beginPath(); ctx.arc(bird.x,bird.y,bird.r,0,Math.PI*2); ctx.fill(); ctx.fillStyle='#ffd86a'; ctx.fillRect(bird.x-10,bird.y-bird.r-10,20,6);
       if(bird.y>h-10 || bird.y<10) alive=false;
-      if(!alive){
-        ctx.fillStyle='rgba(0,0,0,.45)'; ctx.fillRect(0,0,w,h);
-        ctx.fillStyle='#fff'; ctx.font='bold 20px Inter'; ctx.textAlign='center';
-        ctx.fillText('Game Over', w/2,h/2); cancelAnimationFrame(RAF);
-      }
+      if(!alive){ ctx.fillStyle='rgba(0,0,0,.45)'; ctx.fillRect(0,0,w,h); ctx.fillStyle='#fff'; ctx.font='bold 20px Inter'; ctx.textAlign='center'; ctx.fillText('Game Over', w/2,h/2); cancelAnimationFrame(RAF); }
     }
-    loop();
-    return ()=>{ canvas.onclick=null; window.onkeydown=null; };
+    loop(); return ()=>{ canvas.onclick=null; window.onkeydown=null; };
   }
 
-  /* --- 2) Lucky Drop (Plinko) --- */
   function runPlinko(){
     const w=canvas.width, h=canvas.height;
-    const pins=[], cols=9, rows=7, spacing=w/(cols+1);
-    const offsetY=70;
-    for(let r=0;r<rows;r++){
-      for(let c=0;c<cols;c++){
-        const x = spacing*(c+1) + (r%2? spacing/2:0);
-        const y = offsetY + r*38;
-        if(x>20 && x<w-20) pins.push({x,y});
-      }
-    }
-    let ball=null;
-    function drop(x){ if(ball) return; ball={x:x||w/2,y:30,vx:0,vy:0,r:8}; }
+    const pins=[], cols=9, rows=7, spacing=w/(cols+1), offsetY=70;
+    for(let r=0;r<rows;r++){ for(let c=0;c<cols;c++){ const x = spacing*(c+1) + (r%2? spacing/2:0); const y = offsetY + r*38; if(x>20 && x<w-20) pins.push({x,y}); } }
+    let ball=null; function drop(x){ if(ball) return; ball={x:x||w/2,y:30,vx:0,vy:0,r:8}; }
     canvas.onclick=(e)=>{ const rect=canvas.getBoundingClientRect(); drop(e.clientX-rect.left); };
-
     function loop(){
-      RAF=requestAnimationFrame(loop);
-      ctx.clearRect(0,0,w,h);
-      ctx.fillStyle='#060b1a'; ctx.fillRect(0,0,w,h);
-      for(let s=0;s<cols+1;s++){
-        const sx = spacing*s + spacing/2;
-        ctx.fillStyle='#11245a'; ctx.fillRect(sx-2,h-50,4,50);
-      }
-      ctx.fillStyle='#8aa3ff';
-      pins.forEach(p=>{ ctx.beginPath(); ctx.arc(p.x,p.y,4,0,Math.PI*2); ctx.fill(); });
-      if(ball){
-        ball.vy+=0.35; ball.x+=ball.vx; ball.y+=ball.vy;
-        if(ball.x<ball.r){ ball.x=ball.r; ball.vx*=-0.6; }
-        if(ball.x>w-ball.r){ ball.x=w-ball.r; ball.vx*=-0.6; }
-        pins.forEach(p=>{
-          const dx=ball.x-p.x, dy=ball.y-p.y; const d=Math.hypot(dx,dy);
-          if(d<ball.r+5){
-            const ang=Math.atan2(dy,dx); const speed=Math.hypot(ball.vx,ball.vy)*0.9 + 1;
-            const dir=(Math.random()<0.5?-1:1)*0.9;
-            ball.vx = Math.cos(ang)*speed*dir;
-            ball.vy = Math.sin(ang)*speed;
-            const overlap=ball.r+5-d; ball.x+=Math.cos(ang)*overlap; ball.y+=Math.sin(ang)*overlap;
-          }
-        });
+      RAF=requestAnimationFrame(loop); ctx.clearRect(0,0,w,h); ctx.fillStyle='#060b1a'; ctx.fillRect(0,0,w,h);
+      for(let s=0;s<cols+1;s++){ const sx = spacing*s + spacing/2; ctx.fillStyle='#11245a'; ctx.fillRect(sx-2,h-50,4,50); }
+      ctx.fillStyle='#8aa3ff'; pins.forEach(p=>{ ctx.beginPath(); ctx.arc(p.x,p.y,4,0,Math.PI*2); ctx.fill(); });
+      if(ball){ ball.vy+=0.35; ball.x+=ball.vx; ball.y+=ball.vy;
+        if(ball.x<ball.r){ ball.x=ball.r; ball.vx*=-0.6; } if(ball.x>w-ball.r){ ball.x=w-ball.r; ball.vx*=-0.6; }
+        pins.forEach(p=>{ const dx=ball.x-p.x, dy=ball.y-p.y; const d=Math.hypot(dx,dy); if(d<ball.r+5){ const ang=Math.atan2(dy,dx); const speed=Math.hypot(ball.vx,ball.vy)*0.9 + 1; const dir=(Math.random()<0.5?-1:1)*0.9; ball.vx = Math.cos(ang)*speed*dir; ball.vy = Math.sin(ang)*speed; const overlap=ball.r+5-d; ball.x+=Math.cos(ang)*overlap; ball.y+=Math.sin(ang)*overlap; }});
         if(ball.y>h-10){ ball.vy*=-0.35; ball.y=h-10; ball.vx*=0.95; if(Math.abs(ball.vy)<0.5) ball=null; }
         ctx.fillStyle='#ffd86a'; ctx.beginPath(); ctx.arc(ball.x,ball.y,ball.r,0,Math.PI*2); ctx.fill();
-      } else {
-        const x = (Date.now()/8)%w; ctx.fillStyle='#fff8';
-        ctx.fillRect(x,30,2,20);
-      }
+      } else { const x = (Date.now()/8)%w; ctx.fillStyle='#fff8'; ctx.fillRect(x,30,2,20); }
     }
-    loop();
-    return ()=>{ canvas.onclick=null; };
+    loop(); return ()=>{ canvas.onclick=null; };
   }
 
-  /* --- 3) Jump to Win (Doodle Jump lite) --- */
   function runJump(){
     const w=canvas.width, h=canvas.height;
     let player={x:w/2,y:h-40,vx:0,vy:-8,r:12};
-    let plats=[]; const count=12;
-    for(let i=0;i<count;i++){ plats.push({x:Math.random()*(w-80)+40, y:i*(h/count)}); }
-    let ax=0;
-    function onKey(e,down){ if(e.code==='ArrowLeft') ax=down?-0.4:0; if(e.code==='ArrowRight') ax=down?0.4:0; }
+    let plats=[]; const count=12; for(let i=0;i<count;i++){ plats.push({x:Math.random()*(w-80)+40, y:i*(h/count)}); }
+    let ax=0; function onKey(e,down){ if(e.code==='ArrowLeft') ax=down?-0.4:0; if(e.code==='ArrowRight') ax=down?0.4:0; }
     window.addEventListener('keydown', e=>onKey(e,true)); window.addEventListener('keyup', e=>onKey(e,false));
     if(window.DeviceMotionEvent){ window.addEventListener('deviceorientation',e=>{ if(e.gamma!=null) ax = Math.max(-0.5, Math.min(0.5, e.gamma/50)); }); }
-
     function loop(){
-      RAF=requestAnimationFrame(loop);
-      ctx.clearRect(0,0,w,h);
-      ctx.fillStyle='#050a18'; ctx.fillRect(0,0,w,h);
-      player.vx += ax; player.vx *= 0.98; player.x += player.vx;
-      player.vy += 0.25; player.y += player.vy;
-      if(player.x<player.r) {player.x=player.r; player.vx*=-0.6;}
-      if(player.x>w-player.r){player.x=w-player.r; player.vx*=-0.6;}
-      if(player.y < h*0.4){
-        const dy = (h*0.4 - player.y);
-        player.y += dy;
-        plats.forEach(p=> p.y += dy);
-      }
-      plats.forEach(p=>{
-        ctx.fillStyle='#273a8c'; ctx.fillRect(p.x-30,p.y,60,8);
-        if(player.vy>0 && player.y+player.r<p.y+8 && player.y+player.r>p.y && Math.abs(player.x - p.x) < 34){
-          player.vy = -7.8;
-        }
-        if(p.y>h+20){ p.y = -20; p.x = Math.random()*(w-80)+40; }
-      });
-      ctx.fillStyle='#7fe3ff'; ctx.beginPath(); ctx.arc(player.x,player.y,player.r,0,Math.PI*2); ctx.fill();
-      ctx.fillStyle='#ffd86a'; ctx.fillRect(player.x-10,player.y-player.r-10,20,6);
-      if(player.y>h+80){
-        ctx.fillStyle='rgba(0,0,0,.45)'; ctx.fillRect(0,0,w,h);
-        ctx.fillStyle='#fff'; ctx.font='bold 20px Inter'; ctx.textAlign='center'; ctx.fillText('You fell!', w/2,h/2);
-        cancelAnimationFrame(RAF);
-      }
+      RAF=requestAnimationFrame(loop); ctx.clearRect(0,0,w,h); ctx.fillStyle='#050a18'; ctx.fillRect(0,0,w,h);
+      player.vx += ax; player.vx *= 0.98; player.x += player.vx; player.vy += 0.25; player.y += player.vy;
+      if(player.x<player.r) {player.x=player.r; player.vx*=-0.6;} if(player.x>w-player.r){player.x=w-player.r; player.vx*=-0.6;}
+      if(player.y < h*0.4){ const dy = (h*0.4 - player.y); player.y += dy; plats.forEach(p=> p.y += dy); }
+      plats.forEach(p=>{ ctx.fillStyle='#273a8c'; ctx.fillRect(p.x-30,p.y,60,8); if(player.vy>0 && player.y+player.r<p.y+8 && player.y+player.r>p.y && Math.abs(player.x - p.x) < 34){ player.vy = -7.8; } if(p.y>h+20){ p.y = -20; p.x = Math.random()*(w-80)+40; }});
+      ctx.fillStyle='#7fe3ff'; ctx.beginPath(); ctx.arc(player.x,player.y,player.r,0,Math.PI*2); ctx.fill(); ctx.fillStyle='#ffd86a'; ctx.fillRect(player.x-10,player.y-player.r-10,20,6);
+      if(player.y>h+80){ ctx.fillStyle='rgba(0,0,0,.45)'; ctx.fillRect(0,0,w,h); ctx.fillStyle='#fff'; ctx.font='bold 20px Inter'; ctx.textAlign='center'; ctx.fillText('You fell!', w/2,h/2); cancelAnimationFrame(RAF); }
     }
-    loop();
-    return ()=>{ window.onkeydown=null; window.onkeyup=null; };
+    loop(); return ()=>{ window.onkeydown=null; window.onkeyup=null; };
   }
 
-  // orchestrator
-  let cleanup=null, RAF=null;
-  function startGame(){
-    stopGame();
-    if(game==='flappy') cleanup=runFlappy();
-    else if(game==='plinko') cleanup=runPlinko();
-    else cleanup=runJump();
-  }
-  function stopGame(){
-    if(RAF) cancelAnimationFrame(RAF);
-    if(cleanup) { try{cleanup();}catch(e){} cleanup=null; }
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    ctx.fillStyle='#0a0f22'; ctx.fillRect(0,0,canvas.width,canvas.height);
-    ctx.fillStyle='#fff'; ctx.font='bold 16px Inter'; ctx.textAlign='center'; ctx.fillText('Press Start', canvas.width/2, canvas.height/2);
-  }
+  function startGame(){ stopGame(); if(game==='flappy') cleanup=runFlappy(); else if(game==='plinko') cleanup=runPlinko(); else cleanup=runJump(); }
+  function stopGame(){ if(RAF) cancelAnimationFrame(RAF); if(cleanup) { try{cleanup();}catch(e){} cleanup=null; } ctx.clearRect(0,0,canvas.width,canvas.height); ctx.fillStyle='#0a0f22'; ctx.fillRect(0,0,canvas.width,canvas.height); ctx.fillStyle='#fff'; ctx.font='bold 16px Inter'; ctx.textAlign='center'; ctx.fillText('Press Start', canvas.width/2, canvas.height/2); }
   stopGame();
 }
 
-/* Bottom Nav Events */
 $all('.iconnav .itab').forEach(btn=>{
   btn.addEventListener('click', ()=>{ state.tab = btn.getAttribute('data-tab'); render(); });
 });
 
-/* Boot */
 render(); moveInk(0);
 
-/* ===== Background music (autoplay attempt + global unlock) ===== */
 (function(){
   const audio=document.getElementById('bgm'); const btn=document.getElementById('soundBtn'); if(!audio||!btn) return;
   const saved=localStorage.getItem('bgm_pref'); if(saved==='off'){ audio.muted=true; } if(saved==='on'){ audio.muted=false; }
@@ -636,7 +486,7 @@ render(); moveInk(0);
     }catch(e){ btn.classList.add('show'); bindGlobalUnlock(); }
   }
   function bindGlobalUnlock(){
-    const unlock=async()=>{ try{ audio.muted=false; await audio.play(); btn.classList.remove('show'); btn.classList.add('active'); localStorage.getItem('bgm_pref','on'); remove(); }catch(e){} };
+    const unlock=async()=>{ try{ audio.muted=false; await audio.play(); btn.classList.remove('show'); btn.classList.add('active'); localStorage.setItem('bgm_pref','on'); remove(); }catch(e){} };
     const remove=()=>{ document.removeEventListener('pointerdown',unlock); document.removeEventListener('keydown',unlock); document.removeEventListener('touchstart',unlock,{passive:true}); };
     document.addEventListener('pointerdown',unlock); document.addEventListener('keydown',unlock); document.addEventListener('touchstart',unlock,{passive:true});
   }
